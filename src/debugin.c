@@ -6,9 +6,11 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:02:32 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/15 14:17:00 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/18 16:40:19 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../inc/philo.h"
 
 #include "../inc/philo.h"
 
@@ -16,67 +18,67 @@ void print_conditions(t_conditions *conditions)
 {
     if (!conditions)
     {
-        printf("Error: conditions is NULL\n");
+        printf("\033[1;31mError: conditions is NULL\033[0m\n");
         return;
     }
-    printf("=== Program Conditions ===\n");
-    printf("Number of Philosophers: %d\n", conditions->n_philos);
-    printf("Time to Die: %d ms\n", conditions->t_dead);
-    printf("Time to Think: %d ms\n", conditions->t_think);
-    printf("Time to Sleep: %d ms\n", conditions->t_sleep);
-    printf("Time to Eat: %d ms\n", conditions->t_eat);
-    printf("Number of Meals (if specified): %d\n", conditions->hm_eats);
-    printf("Stop Game: %d\n", conditions->stop_game);
+
+    printf("\033[1;34m=== Program Conditions ===\033[0m\n");
+    printf("\033[1;32mNumber of Philosophers:\033[0m %d\n", conditions->n_philos);
+    printf("\033[1;32mTime to Die:\033[0m %lld ms\n", conditions->t_dead);
+    printf("\033[1;32mTime to Sleep:\033[0m %lld ms 🌙\n", conditions->t_sleep);
+    printf("\033[1;32mTime to Eat:\033[0m %lld ms\n", conditions->t_eat);
+    printf("\033[1;32mNumber of Meals (if specified):\033[0m %d\n", conditions->hm_eats);
+    printf("\033[1;32mStop Game:\033[0m %d\n", *conditions->stop_game);
 
     // Print Forks Mutexes
     if (conditions->m_forks)
     {
-        printf("Fork Mutexes:\n");
+        printf("\033[1;34mFork Mutexes:\033[0m\n");
         for (int i = 0; i < conditions->n_philos; i++)
         {
-            printf("  Fork %d Mutex: %p\n", i + 1, (void *)conditions->m_forks[i]);
+            printf("  🍴 Fork %d Mutex: %p\n", i + 1, (void *)conditions->m_forks[i]);
         }
     }
     else
     {
-        printf("Fork Mutexes: NULL\n");
+        printf("\033[1;31mFork Mutexes: NULL\033[0m\n");
     }
 
     // Print Philosopher Data
     if (conditions->philos)
     {
-        printf("=== Philosopher Data ===\n");
+        printf("\033[1;34m=== Philosopher Data ===\033[0m\n");
         for (int i = 0; i < conditions->n_philos; i++)
         {
             t_philo *philo = conditions->philos[i];
             if (philo)
             {
-                printf("Philosopher %d:\n", i + 1);
+                printf("\033[1;33mPhilosopher %d:\033[0m\n", i + 1);
                 printf("  ID: %d\n", philo->mphilo_id);
-                printf("  Last Meal: %d\n", philo->last_meal);
+                printf("  Last Meal: %lld ms\n", philo->time_last_meal);
                 printf("  Number of Times Eaten: %d\n", philo->n_times_eats);
                 printf("  Last State: %d\n", philo->last_state);
-                printf("  Left Fork Mutex: %p\n", (void *)philo->left_fork);
-                printf("  Right Fork Mutex: %p\n", (void *)philo->right_fork);
+                printf("  🍴 Left Fork Mutex: %p\n", (void *)philo->left_fork);
+                printf("  🍴 Right Fork Mutex: %p\n", (void *)philo->right_fork);
                 printf("  State Mutex: %p\n", (void *)philo->m_state);
                 printf("  Last Meal Mutex: %p\n", (void *)philo->m_tmeal);
                 printf("  Stop Mutex: %p\n", (void *)philo->m_stop);
             }
             else
             {
-                printf("Philosopher %d: NULL\n", i + 1);
+                printf("\033[1;31mPhilosopher %d: NULL\033[0m\n", i + 1);
             }
         }
     }
     else
     {
-        printf("Philosopher Data: NULL\n");
+        printf("\033[1;31mPhilosopher Data: NULL\033[0m\n");
     }
 
     // Print Threads
     if (conditions->threads)
     {
-        printf("=== Threads ===\n");
+        printf("\033[1;34m=== Threads ===\033[0m\n");
         for (int i = 0; i < conditions->n_philos; i++)
         {
             if (conditions->threads[i])
@@ -87,17 +89,17 @@ void print_conditions(t_conditions *conditions)
     }
     else
     {
-        printf("Threads: NULL\n");
+        printf("\033[1;31mThreads: NULL\033[0m\n");
     }
 
     // Print Logging and Control Threads
-    printf("Logging Thread: %p\n", (void *)conditions->loggin_thread);
-    printf("Start/End Thread: %p\n", (void *)conditions->start_end_thread);
+    printf("\033[1;34mLogging Thread:\033[0m %p\n", (void *)conditions->loggin_thread);
+    printf("\033[1;34mStart/End Thread:\033[0m %p\n", (void *)conditions->start_end_thread);
 
     // Print State Mutexes
     if (conditions->m_state)
     {
-        printf("State Mutexes:\n");
+        printf("\033[1;34mState Mutexes:\033[0m\n");
         for (int i = 0; i < conditions->n_philos; i++)
         {
             printf("  State Mutex %d: %p\n", i + 1, (void *)conditions->m_state[i]);
@@ -105,13 +107,13 @@ void print_conditions(t_conditions *conditions)
     }
     else
     {
-        printf("State Mutexes: NULL\n");
+        printf("\033[1;31mState Mutexes: NULL\033[0m\n");
     }
 
     // Print Last Meal Mutexes
     if (conditions->m_tmeal)
     {
-        printf("Last Meal Mutexes:\n");
+        printf("\033[1;34mLast Meal Mutexes:\033[0m\n");
         for (int i = 0; i < conditions->n_philos; i++)
         {
             printf("  Last Meal Mutex %d: %p\n", i + 1, (void *)conditions->m_tmeal[i]);
@@ -119,9 +121,9 @@ void print_conditions(t_conditions *conditions)
     }
     else
     {
-        printf("Last Meal Mutexes: NULL\n");
+        printf("\033[1;31mLast Meal Mutexes: NULL\033[0m\n");
     }
 
     // Print Stop Mutex
-    printf("Stop Mutex: %p\n", (void *)conditions->m_stop);
+    printf("\033[1;34mStop Mutex:\033[0m %p\n", (void *)conditions->m_stop);
 }

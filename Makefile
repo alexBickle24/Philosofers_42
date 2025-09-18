@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-FLAGS = -Wall -Wextra -Werror -fsanitize=address
+FLAGS = -Wall -Wextra -Werror 
 RM = rm -rf
 MKDIR = mkdir -p # Si ya existe no da problemas
 
@@ -14,7 +14,10 @@ SRC_DIR = src/
 
 SRC_FILES = main.c\
 			debugin.c\
-			free_and_errors.c
+			free_and_errors.c\
+			loggin_control.c\
+			working.c\
+			time.c
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
