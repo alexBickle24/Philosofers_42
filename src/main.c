@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:56:21 by alex              #+#    #+#             */
-/*   Updated: 2025/09/18 19:53:33 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/18 20:51:16 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,6 +298,11 @@ void	join_threads_and_printdie(t_conditions *conditions)
 	t_philo *philo;
 
 	i = 0;
+	while (i < conditions->n_philos)
+	{
+		pthread_join(*(conditions->threads[i]), NULL);
+		i++;
+	}
 	pthread_join(conditions->start_end_thread[0], &retval);
 	if (retval != NULL)
 	{
@@ -305,15 +310,6 @@ void	join_threads_and_printdie(t_conditions *conditions)
 		if (!(conditions->hm_eats != -1 && philo->n_times_eats >= conditions->hm_eats))
 			printf("%lld %d died\n", philo->time_last_meal + conditions->t_dead, philo->mphilo_id + 1);
 	}
-	ft_putstr_fd("dadsadasdasd\n", 2);
-	while (i < conditions->n_philos)
-	{
-		ft_putstr_fd("esperando a hilos work\n", 2);
-		pthread_join(*(conditions->threads[i]), NULL);
-		i++;
-	}
-	// pthread_join(conditions->loggin_thread[0], NULL);
-
 }
 
 // void join_threads_and_printdie(t_conditions *conditions)

@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:42:23 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/18 19:50:08 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/18 20:56:12 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,33 +85,94 @@ char	thinking_on_nothing(t_philo *philo)
 	return(0);
 }
 
-char	jungle(t_philo *philo)
-{
-	long long	inicio;
-	long long	usleep_t;
+// char	jungle(t_philo *philo)
+// {
+// 	long long	inicio;
+// 	long long	usleep_t;
 
-	if (stop_thread(philo))
-		return (1);
-	usleep_t = usleep_time_working(MS_FREC);
-	pthread_mutex_lock(philo->left_fork);
-	pthread_mutex_lock(philo->m_state);
-	philo->timestamp = get_timestamp();
-	philo->last_state = S_TAKING_FORK_LEFT;
-	print_philo(philo, philo->mphilo_id, S_TAKING_FORK_LEFT);
-	pthread_mutex_unlock(philo->m_state);
-	pthread_mutex_lock(philo->right_fork);
-	inicio = get_timestamp();
-	pthread_mutex_lock(philo->m_state);
-	philo->timestamp = inicio;
-	philo->last_state = S_EATING;
-	print_philo(philo, philo->mphilo_id, S_EATING);
-	pthread_mutex_unlock(philo->m_state);
-	if (!gains(philo, inicio, usleep_t))
-		return (0);
-	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
-	return (1);
+// 	if (stop_thread(philo))
+// 		return (1);
+// 	usleep_t = usleep_time_working(MS_FREC);
+// 	pthread_mutex_lock(philo->left_fork);
+// 	pthread_mutex_lock(philo->m_state);
+// 	philo->timestamp = get_timestamp();
+// 	philo->last_state = S_TAKING_FORK_LEFT;
+// 	print_philo(philo, philo->mphilo_id, S_TAKING_FORK_LEFT);
+// 	pthread_mutex_unlock(philo->m_state);
+// 	pthread_mutex_lock(philo->right_fork);
+// 	inicio = get_timestamp();
+// 	pthread_mutex_lock(philo->m_state);
+// 	philo->timestamp = inicio;
+// 	philo->last_state = S_EATING;
+// 	print_philo(philo, philo->mphilo_id, S_EATING);
+// 	pthread_mutex_unlock(philo->m_state);
+// 	if (!gains(philo, inicio, usleep_t))
+// 		return (0);
+// 	pthread_mutex_unlock(philo->left_fork);
+// 	pthread_mutex_unlock(philo->right_fork);
+// 	return (1);
+// }
+
+char jungle(t_philo *philo)
+{
+    long long inicio;
+    long long usleep_t;
+
+    if (stop_thread(philo))
+        return (1);
+    usleep_t = usleep_time_working(MS_FREC);
+
+    // Toma de tenedores
+    if (philo->mphilo_id == *(philo->n_philos) - 1)
+    {
+        pthread_mutex_lock(philo->right_fork);
+        pthread_mutex_lock(philo->left_fork);
+        pthread_mutex_lock(philo->m_state);
+        philo->timestamp = get_timestamp();
+        philo->last_state = S_TAKING_FORK_LEFT; // opcional, podrías crear S_TAKING_FORK_RIGHT
+        print_philo(philo, philo->mphilo_id, S_TAKING_FORK_RIGHT);
+        print_philo(philo, philo->mphilo_id, S_TAKING_FORK_LEFT);
+        pthread_mutex_unlock(philo->m_state);
+    }
+    else
+    {
+        pthread_mutex_lock(philo->left_fork);
+        pthread_mutex_lock(philo->right_fork);
+        pthread_mutex_lock(philo->m_state);
+        philo->timestamp = get_timestamp();
+        philo->last_state = S_TAKING_FORK_LEFT;
+        print_philo(philo, philo->mphilo_id, S_TAKING_FORK_LEFT);
+        print_philo(philo, philo->mphilo_id, S_TAKING_FORK_RIGHT);
+        pthread_mutex_unlock(philo->m_state);
+    }
+
+    // Comer
+    inicio = get_timestamp();
+    pthread_mutex_lock(philo->m_state);
+    philo->timestamp = inicio;
+    philo->last_state = S_EATING;
+    print_philo(philo, philo->mphilo_id, S_EATING);
+    pthread_mutex_unlock(philo->m_state);
+
+    if (!gains(philo, inicio, usleep_t))
+    {
+        // Liberar tenedores en orden inverso
+        if (philo->mphilo_id == *(philo->n_philos) - 1)
+        {
+            pthread_mutex_unlock(philo->left_fork);
+            pthread_mutex_unlock(philo->right_fork);
+        }
+        else
+        {
+            pthread_mutex_unlock(philo->right_fork);
+            pthread_mutex_unlock(philo->left_fork);
+        }
+        return 0;
+    }
+
+    return 1;
 }
+
 
 char	gains(t_philo *philo, long long inicio, long long usleep_t)
 {

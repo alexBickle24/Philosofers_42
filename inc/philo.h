@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:29:14 by alex              #+#    #+#             */
-/*   Updated: 2025/09/18 19:50:36 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/18 20:56:30 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include <errno.h>
 #include <stdio.h>
 
-#define MS_FREC 7
+#define MS_FREC 4
 
 typedef enum s_philo_state
 {
