@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:02:32 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 14:45:13 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 17:11:01 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,28 @@ void	print_all_philos_eats(t_conditions *conditions)
         if (philo)
         {
             printf("Philosopher %d has eaten %d times.\n", philo->mphilo_id, philo->n_times_eats);
+        }
+        else
+        {
+            printf("Error: Philosopher %d data is NULL.\n", i + 1);
+        }
+    }
+}
+
+
+void	print_all_philos_last_meal(t_conditions *conditions)
+{
+    if (!conditions || !conditions->philos)
+    {
+        printf("Error: Invalid philosopher data.\n");
+        return;
+    }
+    for (int i = 0; i < conditions->n_philos; i++)
+    {
+        t_philo *philo = conditions->philos[i];
+        if (philo)
+        {
+            printf("Philosopher %d last_ meal %lld t.\n", philo->mphilo_id, philo->time_last_meal - philo->init_time);
         }
         else
         {

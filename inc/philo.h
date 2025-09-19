@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:29:14 by alex              #+#    #+#             */
-/*   Updated: 2025/09/19 14:57:21 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 17:09:54 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct program_conditions
 //debugin
 void	print_all_philos_eats(t_conditions *conditions);
 void	print_all_philos_fields(t_conditions *conditions);
+void	print_all_philos_last_meal(t_conditions *conditions);
 
 //free and close
 void	free_data(t_conditions **conditions);

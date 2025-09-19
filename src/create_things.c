@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:14:10 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 15:00:59 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 17:14:00 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,14 @@ char	create_threads(t_conditions *cond)
 
 	i = 0;
 	threads = cond->threads;
-	if (pthread_create(cond->start_end_thread, NULL, control_r, (void *)cond))
-		return (free_data(&cond), 1);
 	while(i < cond->n_philos)
 	{	
 		if (pthread_create(threads[i], NULL, game_r, (void *)(cond->philos[i])))
 			return (free_data(&cond), 1);
 		i++;
 	}
+	if (pthread_create(cond->start_end_thread, NULL, control_r, (void *)cond))
+		return (free_data(&cond), 1);
 	return (0);
 }
 
@@ -135,5 +135,6 @@ void	join_threads_and_printdie(t_conditions *conditions)
 		printf("%lld %s%d%s", t_dead, YELLOW, id + 1, RESET);
 		printf(" %sdied%s %s\n", RED, RESET, SKULL);
 	}
-	print_all_philos_eats(conditions);
+	// print_all_philos_eats(conditions);
+	// print_all_philos_last_meal(conditions);
 }

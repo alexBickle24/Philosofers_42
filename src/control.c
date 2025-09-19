@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:04:16 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 15:13:01 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 17:12:41 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*control_r(void *arg)
 	int				i;
 	
 	cond = (t_conditions *)arg;
-	usleep_t = usleep_time_controler(cond->n_philos, MS_FREC - 1);
+	usleep_t = usleep_time_controler(cond->n_philos, MS_FREC);
 	i = -1;
 	while (++i < cond->n_philos)
 	{
@@ -72,7 +72,6 @@ char	check_sucess(t_conditions *cond, int i, int hm_meals)
 	}
 	if (count >= cond->n_philos)
 	{
-		ft_putstr_fd("sale\n", 2);
 		parallel_stop(cond);
 		return (1);
 	}

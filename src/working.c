@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:42:23 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 15:09:23 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 17:04:20 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ void	*game_r(void *arg)
 	t_philo *philo_i;
 
 	philo_i = (t_philo *)arg;
+	pthread_mutex_lock(philo_i->m_tmeal);
 	philo_i->init_time = get_timestamp();
 	philo_i->time_last_meal = get_timestamp();
+	pthread_mutex_unlock(philo_i->m_tmeal);
 	if (*(philo_i->n_philos) == 1)
 	{
 		melatonine(philo_i);
@@ -47,7 +49,7 @@ char	melatonine(t_philo *philo)
 	philo->timestamp = inicio - philo->init_time;
 	if (stop_thread(philo))
 		return (1);
-	usleep_t = usleep_time_working(MS_FREC);
+	usleep_t = usleep_time_working(1);
 	print_philo(philo, philo->mphilo_id, S_SLEEPING, philo->timestamp);
 	time_doing = get_timestamp() - inicio;
 	while (time_doing <= *(philo->t_sleep))
@@ -77,10 +79,11 @@ char jungle(t_philo *philo)
 {
     long long inicio;
     long long usleep_t;
+	char ret;
 
     if (stop_thread(philo))
         return (1);
-    usleep_t = usleep_time_working(MS_FREC);
+    usleep_t = usleep_time_working(1);
 
     // Toma de tenedores
     if (philo->mphilo_id == *(philo->n_philos) - 1 /*&& *(philo->n_philos) != 2*/)
@@ -105,42 +108,38 @@ char jungle(t_philo *philo)
     // Comer
     philo->last_state = S_EATING;
     print_philo(philo, philo->mphilo_id, S_EATING, philo->timestamp);
-    if (!gains(philo, inicio, usleep_t))
+	ret = gains(philo, inicio, usleep_t);
+    if (philo->mphilo_id == *(philo->n_philos) - 1)
     {
-        // Liberar tenedores en orden inverso
-        if (philo->mphilo_id == *(philo->n_philos) - 1)
-        {
-            pthread_mutex_unlock(philo->left_fork);
-            pthread_mutex_unlock(philo->right_fork);
-        }
-        else
-        {
-            pthread_mutex_unlock(philo->right_fork);
-            pthread_mutex_unlock(philo->left_fork);
-        }
-        return 0;
+         pthread_mutex_unlock(philo->left_fork);
+         pthread_mutex_unlock(philo->right_fork);
     }
-
-    return 1;
+    else
+    {
+        pthread_mutex_unlock(philo->right_fork);
+    	pthread_mutex_unlock(philo->left_fork);
+    }
+	return (ret);
 }
 
 
 char	gains(t_philo *philo, long long inicio, long long usleep_t)
 {
 	long long	time_doing;
+	(void)usleep_t;//
 	
 	time_doing = get_timestamp() - inicio;
 	while (time_doing <= *(philo->t_eat))
 	{
 		if (stop_thread(philo))
 			return (1);
-		usleep(usleep_t);
+		usleep(50);
 		time_doing = get_timestamp() - inicio;
 	}
-	pthread_mutex_unlock(philo->m_tmeal);
+	pthread_mutex_lock(philo->m_tmeal);
 	philo->time_last_meal = get_timestamp();
 	philo->n_times_eats++;
-	pthread_mutex_lock(philo->m_tmeal);
+	pthread_mutex_unlock(philo->m_tmeal);
 	return (0);
 }
 

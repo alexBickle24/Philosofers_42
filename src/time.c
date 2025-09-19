@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 02:24:25 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 13:11:37 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 17:14:22 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ long long 	usleep_time_controler(int num_philos, int frec_pp)
 	while (1)
 	{
 		if (milisec * num_philos > frec_pp)
-		milisec /=  frec_pp;
+			milisec /=  frec_pp;
 		else
-		break;
+			break;
 	}
 	microsec = milisec * 1000;
 	return (microsec);
@@ -48,7 +48,7 @@ long long 	usleep_time_working(int frec_pp)
 {
 	long long microsec;
 
-	microsec = frec_pp * 1000;
+	microsec = frec_pp * 10;
 	return (microsec);
 }
 
