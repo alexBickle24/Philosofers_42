@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:14:10 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 19:45:23 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 22:19:49 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,4 @@ void	join_threads_and_printdie(t_conditions *conditions)
 		printf("%lld %s%d%s", t_dead, YELLOW, id + 1, RESET);
 		printf(" %sdied%s %s\n", RED, RESET, SKULL);
 	}
-	// print_all_philos_eats(conditions);
-	// print_all_philos_last_meal(conditions);
 }
