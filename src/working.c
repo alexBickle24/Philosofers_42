@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:42:23 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/18 20:56:12 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 13:05:21 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 void	*game_r(void *arg)
 {
 	t_philo *philo_i;
-	int	iter;
 
-	iter = 1;
 	philo_i = (t_philo *)arg;
+	philo_i->init_time = get_timestamp();
 	philo_i->time_last_meal = get_timestamp();
 	if (*(philo_i->n_philos) == 1)
 	{
@@ -26,20 +25,13 @@ void	*game_r(void *arg)
 		return (NULL);
 	}
 	if ((philo_i->mphilo_id + 1) % 2 != 0)
-	{
 		melatonine(philo_i);
-		// if (philo_i->mphilo_id == 1)
-		// {
-			
-		// }
-	}
 	while (!stop_thread(philo_i))
 	{
 		if (jungle(philo_i)) // intentar comer
 			break;
 		if (melatonine(philo_i)) // dormir
 			break;
-		iter++;
 	}
 	return (NULL);
 }
@@ -51,15 +43,12 @@ char	melatonine(t_philo *philo)
 	long long time_doing;
 	long long usleep_t;
 
+	inicio = get_timestamp();
+	philo->timestamp = inicio - philo->init_time;
 	if (stop_thread(philo))
 		return (1);
 	usleep_t = usleep_time_working(MS_FREC);
-	pthread_mutex_lock(philo->m_state);
-	inicio = get_timestamp();
-	philo->timestamp = inicio;
-	philo->last_state = S_SLEEPING;
-	print_philo(philo, philo->mphilo_id, S_SLEEPING);
-	pthread_mutex_unlock(philo->m_state);
+	print_philo(philo, philo->mphilo_id, S_SLEEPING, philo->timestamp);
 	time_doing = get_timestamp() - inicio;
 	while (time_doing <= *(philo->t_sleep))
 	{
@@ -77,41 +66,13 @@ char	thinking_on_nothing(t_philo *philo)
 {
 	if (stop_thread(philo))
 		return (1);
-	pthread_mutex_lock(philo->m_state);
-	philo->timestamp = get_timestamp();
+	philo->timestamp = get_timestamp() - philo->init_time;
 	philo->last_state = S_THINKING;
-	print_philo(philo, philo->mphilo_id, S_THINKING);
+	print_philo(philo, philo->mphilo_id, S_THINKING, philo->timestamp);
 	pthread_mutex_unlock(philo->m_state);
 	return(0);
 }
 
-// char	jungle(t_philo *philo)
-// {
-// 	long long	inicio;
-// 	long long	usleep_t;
-
-// 	if (stop_thread(philo))
-// 		return (1);
-// 	usleep_t = usleep_time_working(MS_FREC);
-// 	pthread_mutex_lock(philo->left_fork);
-// 	pthread_mutex_lock(philo->m_state);
-// 	philo->timestamp = get_timestamp();
-// 	philo->last_state = S_TAKING_FORK_LEFT;
-// 	print_philo(philo, philo->mphilo_id, S_TAKING_FORK_LEFT);
-// 	pthread_mutex_unlock(philo->m_state);
-// 	pthread_mutex_lock(philo->right_fork);
-// 	inicio = get_timestamp();
-// 	pthread_mutex_lock(philo->m_state);
-// 	philo->timestamp = inicio;
-// 	philo->last_state = S_EATING;
-// 	print_philo(philo, philo->mphilo_id, S_EATING);
-// 	pthread_mutex_unlock(philo->m_state);
-// 	if (!gains(philo, inicio, usleep_t))
-// 		return (0);
-// 	pthread_mutex_unlock(philo->left_fork);
-// 	pthread_mutex_unlock(philo->right_fork);
-// 	return (1);
-// }
 
 char jungle(t_philo *philo)
 {
@@ -127,33 +88,24 @@ char jungle(t_philo *philo)
     {
         pthread_mutex_lock(philo->right_fork);
         pthread_mutex_lock(philo->left_fork);
-        pthread_mutex_lock(philo->m_state);
-        philo->timestamp = get_timestamp();
-        philo->last_state = S_TAKING_FORK_LEFT; // opcional, podrías crear S_TAKING_FORK_RIGHT
-        print_philo(philo, philo->mphilo_id, S_TAKING_FORK_RIGHT);
-        print_philo(philo, philo->mphilo_id, S_TAKING_FORK_LEFT);
-        pthread_mutex_unlock(philo->m_state);
+		inicio = get_timestamp();
+		philo->timestamp = inicio - philo->init_time;
+        print_philo(philo, philo->mphilo_id, S_TAKING_FORK_RIGHT, philo->timestamp);
+        print_philo(philo, philo->mphilo_id, S_TAKING_FORK_LEFT, philo->timestamp);
     }
     else
     {
         pthread_mutex_lock(philo->left_fork);
         pthread_mutex_lock(philo->right_fork);
-        pthread_mutex_lock(philo->m_state);
-        philo->timestamp = get_timestamp();
-        philo->last_state = S_TAKING_FORK_LEFT;
-        print_philo(philo, philo->mphilo_id, S_TAKING_FORK_LEFT);
-        print_philo(philo, philo->mphilo_id, S_TAKING_FORK_RIGHT);
-        pthread_mutex_unlock(philo->m_state);
+        inicio = get_timestamp();
+		philo->timestamp = inicio - philo->init_time;
+        print_philo(philo, philo->mphilo_id, S_TAKING_FORK_LEFT, philo->timestamp);
+        print_philo(philo, philo->mphilo_id, S_TAKING_FORK_RIGHT, philo->timestamp);
     }
 
     // Comer
-    inicio = get_timestamp();
-    pthread_mutex_lock(philo->m_state);
-    philo->timestamp = inicio;
     philo->last_state = S_EATING;
-    print_philo(philo, philo->mphilo_id, S_EATING);
-    pthread_mutex_unlock(philo->m_state);
-
+    print_philo(philo, philo->mphilo_id, S_EATING, philo->timestamp);
     if (!gains(philo, inicio, usleep_t))
     {
         // Liberar tenedores en orden inverso
@@ -188,14 +140,15 @@ char	gains(t_philo *philo, long long inicio, long long usleep_t)
 	}
 	pthread_mutex_unlock(philo->m_tmeal);
 	philo->time_last_meal = get_timestamp();
+	philo->n_times_eats++;
 	pthread_mutex_lock(philo->m_tmeal);
 	return (0);
 }
 
-void	print_philo(t_philo *philos, int id, int new_state)
+void	print_philo(t_philo *philos, int id, int new_state, long long timestamp)
 {
 	pthread_mutex_lock(philos->m_fd);
-	printf("%lld %s%d%s", philos->timestamp, YELLOW, id + 1, RESET);
+	printf("%lld %s%d%s", timestamp, YELLOW, id + 1, RESET);
 	if (new_state == S_SLEEPING)
 		printf(" %sis sleeping%s %s\n", LIGHT_BLUE, RESET, MOON);
 	if (new_state == S_THINKING)
@@ -205,10 +158,6 @@ void	print_philo(t_philo *philos, int id, int new_state)
 	if (new_state == S_TAKING_FORK_RIGHT)
 		printf(" %shas taken a fork%s %s\n", GRAY, RESET, FORK);
 	if (new_state == S_EATING)
-	{
-		printf(" %shas taken a fork%s %s\n", GRAY, RESET, FORK);
-		printf("%lld %s%d%s", philos->timestamp, YELLOW, id + 1, RESET);
-		printf(" %sis esting%s %s\n", GREEN, RESET, STEAK);
-	}
+		printf(" %sis eating%s %s\n", GREEN, RESET, STEAK);
 	pthread_mutex_unlock(philos->m_fd);
 }

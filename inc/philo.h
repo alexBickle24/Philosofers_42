@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:29:14 by alex              #+#    #+#             */
-/*   Updated: 2025/09/18 20:56:30 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 13:27:36 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include <errno.h>
 #include <stdio.h>
 
-#define MS_FREC 4
+#define MS_FREC 5
 
 typedef enum s_philo_state
 {
@@ -37,39 +37,38 @@ typedef enum s_philo_state
 //Datos del filosofo
 typedef struct philo_data
 {
-	///
+
 	long long	*t_eat;
 	long long	*t_sleep;
-	///
-	int *n_philos;
-	int	mphilo_id;//qur nuemro de filofo es 
+	int			*n_philos;
+	int			mphilo_id;//qur nuemro de filofo es 
 	long long	time_last_meal;//(escribe philo -  lee start_end)
-	int	n_times_eats;//(escribe philo - lee start_end)
-	long long timestamp;//para el ultimo cambio de estado del philosofo
-	int	last_state;//(escribe philo - lee logging)
-	int	*stop_game;
+	int			n_times_eats;//(escribe philo - lee start_end)
+	long long	timestamp;//para el ultimo cambio de estado del philosofo
+	int			last_state;//(escribe philo - lee logging)
+	int			*stop_game;
+	long long	init_time;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*m_fd;//un mutex para cada fork (philos-philos)
 	pthread_mutex_t	*m_state;//para cambio de estado (philos-loggin)
 	pthread_mutex_t	*m_tmeal;//para cambio de ultima comida y numero de comidas(philos-start_end)
 	pthread_mutex_t	*m_stop;//para consultar cuando se esta comiendo y liberar el mutex (start_end - philos)
-	struct timeval tv;
 }		t_philo;
 
 //Estrcutura con los datos de los arguemtnos de los philososofos
 typedef struct program_conditions
 {
-	int	n_philos;
+	int			n_philos;
 	long long	t_dead;
 	long long	t_sleep;
 	long long	t_eat;
-	int	hm_eats;
-	int start;
-	int	*stop_game; //esta variable solo se escribe desde hilo control y leen continuamente los hilos de ejecucion.
-	int *l_states;//los estados de cada philosofo (solo lee y escribe logging)
+	long long	hm_eats;
+	int			start;//
+	long long	dead;
+	int			*sucess;
+	int			*stop_game; //esta variable solo se escribe desde hilo control y leen continuamente los hilos de ejecucion.
 	pthread_t	**threads;//los hilos de los filofofos (handler)
-	pthread_t	*loggin_thread;//el hilo de escritura (handler)
 	pthread_t	*start_end_thread;//el hilo de comprobacion de muerte
 	pthread_mutex_t	*m_fd;//un mutex para cada fork (philos-philos);
 	pthread_mutex_t	**m_forks;//un mutex para cada fork (philos-philos)
@@ -113,17 +112,16 @@ char	create_threads(t_conditions *cond);
 char	destroy_mutex(t_conditions *cond);
 
 //rutines
-// void	*loggin_r(void *arg);
-// void	print_philo_state(t_conditions *cond, int num_philo, int new_state);
 void	*control_r(void *arg);
 void	parallel_stop(t_conditions *con);
+char	check_sucess(t_conditions *cond, int i, int hm_meals);
 void	*game_r(void *arg);
 char	melatonine(t_philo *philo);
 char	thinking_on_nothing(t_philo *philo);
 char	jungle(t_philo *philo);
 char	gains(t_philo *philo, long long inicio, long long usleep_t);
 char	stop_thread(t_philo *philo_i);
-void	print_philo(t_philo *philos, int id, int new_state);
+void	print_philo(t_philo *philos, int id, int new_state, long long timestamp);
 
 //time
 long long	usleep_time_loggin(t_conditions *cond);

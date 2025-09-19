@@ -13,8 +13,9 @@ INCLUDE = $(INCLUDE_DIR)/philo.h
 SRC_DIR = src/
 
 SRC_FILES = main.c\
-			debugin.c\
 			free_and_errors.c\
+			free_and_errors2.c\
+			create_things.c\
 			loggin_control.c\
 			working.c\
 			time.c

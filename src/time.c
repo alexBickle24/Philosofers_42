@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 02:24:25 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/18 16:41:34 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 13:11:37 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	stop_thread(t_philo *philo_i)
 	ret = 0;
 	pthread_mutex_lock(philo_i->m_stop);
 	if (*(philo_i->stop_game))
-			ret = 1;
+		ret = 1;
 	pthread_mutex_unlock(philo_i->m_stop);
 	return (ret);
 }
