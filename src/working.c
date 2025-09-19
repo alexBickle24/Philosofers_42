@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:42:23 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 20:49:27 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 22:18:06 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	*game_r(void *arg)
 	return (NULL);
 }
 
-
 char	melatonine(t_philo *philo)
 {
 	long long inicio;
@@ -78,7 +77,6 @@ char	thinking_on_nothing(t_philo *philo)
 	print_philo(philo, philo->mphilo_id, S_THINKING, philo->timestamp);
 	return(0);
 }
-
 
 char jungle(t_philo *philo)
 {
@@ -121,67 +119,75 @@ char jungle(t_philo *philo)
 	return (ret);
 }
 
-char	take_right_fork(t_philo *phi, long long *start)
+
+char take_right_fork(t_philo *phi, long long *start)
 {
-	pthread_mutex_lock(phi->right_fork);
-	if (!*(phi->fork_r))
-	{
-		*start = get_timestamp();
-		phi->timestamp = *start - phi->init_time;
-		print_philo(phi, phi->mphilo_id, S_TAKING_FORK_RIGHT, phi->timestamp);
-		*(phi->fork_r) = 1;
-		return (0);
-	}
-	return (1);
+    pthread_mutex_lock(phi->right_fork);
+
+    // Si llegamos aquí, el mutex está bloqueado → el tenedor es nuestro
+    if (*(phi->fork_r) == 0) // flag dice que estaba libre
+    {
+        *start = get_timestamp();
+        phi->timestamp = *start - phi->init_time;
+        print_philo(phi, phi->mphilo_id, S_TAKING_FORK_RIGHT, phi->timestamp);
+        *(phi->fork_r) = 1; // marcarlo ocupado
+        return (0); // éxito → mantenemos bloqueado
+    }
+
+    // Si la flag dice que estaba ocupado, entonces está desincronizado → lo tratamos como fallo
+    pthread_mutex_unlock(phi->right_fork); // liberamos porque realmente no lo usamos
+    return (1);
 }
 
-char	take_left_fork(t_philo *phi, long long *start)
+char take_left_fork(t_philo *phi, long long *start)
 {
-	pthread_mutex_lock(phi->left_fork);
-	if (!*(phi->fork_l))
-	{
-		*start = get_timestamp();
-		phi->timestamp = *start - phi->init_time;
-		print_philo(phi, phi->mphilo_id, S_TAKING_FORK_LEFT, phi->timestamp);
-		*(phi->fork_l) = 1;
-		return (0);
-	}
-	return (1);
+    pthread_mutex_lock(phi->left_fork);
+
+    if (*(phi->fork_l) == 0)
+    {
+        *start = get_timestamp();
+        phi->timestamp = *start - phi->init_time;
+        print_philo(phi, phi->mphilo_id, S_TAKING_FORK_LEFT, phi->timestamp);
+        *(phi->fork_l) = 1;
+        return (0);
+    }
+
+    pthread_mutex_unlock(phi->left_fork);
+    return (1);
 }
 
-char	drop_left_fork(t_philo *phi)
+char drop_right_fork(t_philo *phi)
 {
-	if (*(phi->fork_l))
-	{
-		*(phi->fork_l) = 0;
-		pthread_mutex_unlock(phi->left_fork);
-		return (0);
-	}
-	return (1);
+    if (*(phi->fork_r) == 1) // solo si lo teníamos marcado
+    {
+        *(phi->fork_r) = 0; // liberar flag
+        pthread_mutex_unlock(phi->right_fork); // liberar mutex
+        return (0);
+    }
+    return (1);
 }
 
-char	drop_right_fork(t_philo *phi)
+char drop_left_fork(t_philo *phi)
 {
-	if (*(phi->fork_r))
-	{
-		*(phi->fork_r) = 0;
-		pthread_mutex_unlock(phi->right_fork);
-		return (0);
-	}
-	return (1);
+    if (*(phi->fork_l) == 1)
+    {
+        *(phi->fork_l) = 0;
+        pthread_mutex_unlock(phi->left_fork);
+        return (0);
+    }
+    return (1);
 }
 
 char	gains(t_philo *philo, long long inicio, long long usleep_t)
 {
 	long long	time_doing;
-	(void)usleep_t;//
 	
 	time_doing = get_timestamp() - inicio;
 	while (time_doing <= *(philo->t_eat))
 	{
 		if (stop_thread(philo))
 			return (1);
-		usleep(50);
+		usleep(usleep_t);
 		time_doing = get_timestamp() - inicio;
 	}
 	pthread_mutex_lock(philo->m_tmeal);
