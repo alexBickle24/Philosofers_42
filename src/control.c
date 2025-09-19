@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loggin_control.c                                   :+:      :+:    :+:   */
+/*   control.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:04:16 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 13:42:43 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 15:13:01 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 void	*control_r(void *arg)
 {
 	t_conditions	*cond;
-	// long long		usleep_t;
+	long long		usleep_t;
 	long long		time_last_meal;
 	int				hm_meals;
 	int				i;
 	
 	cond = (t_conditions *)arg;
-	// usleep_t = usleep_time_controler(cond->n_philos, MS_FREC - 1);
+	usleep_t = usleep_time_controler(cond->n_philos, MS_FREC - 1);
 	i = -1;
 	while (++i < cond->n_philos)
 	{
@@ -39,7 +39,7 @@ void	*control_r(void *arg)
 			return(NULL);
 		if (i == cond->n_philos - 1)
 			i = -1;
-		usleep(50);//mayor frercuedncia
+		usleep(usleep_t);//mayor frercuedncia
 	}
 	return (NULL);
 }

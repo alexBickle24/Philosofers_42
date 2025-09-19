@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:42:25 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 13:19:12 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 14:40:41 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,6 @@ void	free_philosids(t_conditions *conditions)
 	}
 	free(conditions->philos);
 	conditions->philos = NULL;
-}
-
-void	free_all_mutexes(t_conditions *conditions)
-{
-	if (conditions == NULL)
-		return;
-	free(conditions->m_fd);
-	free_stop_mutexes(conditions);
-	free_blockstart_mutexes(conditions);
-	free_fork_mutexes(conditions);
-	free_state_mutexes(conditions);
-	free_tmeal_mutexes(conditions);
 }
 
 void	free_threads(t_conditions *conditions)

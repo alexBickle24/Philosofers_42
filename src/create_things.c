@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:14:10 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 13:45:08 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 15:00:59 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,12 @@ char	create_philos_data(t_conditions *cond)
 		else
 			cond->philos[i]->left_fork = cond->m_forks[i - 1];
 		cond->philos[i]->right_fork = cond->m_forks[i];
-		cond->philos[i]->m_state = cond->m_state[i];
 		cond->philos[i]->m_tmeal = cond->m_tmeal[i];
 		cond->philos[i]->m_stop = cond->m_stop[i];
 		cond->philos[i]->m_fd = cond->m_fd;
-		//otros datos
 		cond->philos[i]->t_eat = &(cond->t_eat);
 		cond->philos[i]->t_sleep = &(cond->t_sleep);
 		cond->philos[i]->n_philos = &(cond->n_philos);
-		cond->philos[i]->stop_game = &(cond->stop_game[i]);
 		cond->philos[i]->stop_game = &(cond->stop_game[i]);
 	}
 	return (0);
@@ -50,7 +47,6 @@ char	create_mutex(t_conditions *cond)
 	int	i;
 	int ret1;
 	int ret2;
-	int ret3;
 	int ret4;
 
 	i = 0;
@@ -58,9 +54,8 @@ char	create_mutex(t_conditions *cond)
 	{
 		ret1 = pthread_mutex_init(cond->m_forks[i], NULL);
 		ret2 = pthread_mutex_init(cond->m_tmeal[i], NULL);
-		ret3 = pthread_mutex_init(cond->m_state[i], NULL);
 		ret4 = pthread_mutex_init(cond->m_stop[i], NULL);
-		if (ret1 || ret2 || ret3 || ret4)
+		if (ret1 || ret2 || ret4)
 			return (1);
 		if (cond->n_philos >= 20)
 		{
@@ -78,7 +73,6 @@ char	destroy_mutex(t_conditions *cond)
 	int	i;
 	int ret1;
 	int ret2;
-	int ret3;
 	int ret4;
 
 	i = 0;
@@ -86,9 +80,8 @@ char	destroy_mutex(t_conditions *cond)
 	{
 		ret1 = pthread_mutex_destroy(cond->m_forks[i]);
 		ret2 = pthread_mutex_destroy(cond->m_tmeal[i]);
-		ret3 = pthread_mutex_destroy(cond->m_state[i]);
 		ret4 = pthread_mutex_destroy(cond->m_stop[i]);
-		if (ret1 || ret2 || ret3 || ret4)
+		if (ret1 || ret2 || ret4)
 			return (1);
 		if (cond->n_philos >= 20)
 		{
@@ -101,12 +94,10 @@ char	destroy_mutex(t_conditions *cond)
 	return (0);
 }
 
-
 char	create_threads(t_conditions *cond)
 {
 	pthread_t	**threads;
 	int	i;
-
 
 	i = 0;
 	threads = cond->threads;
@@ -121,7 +112,6 @@ char	create_threads(t_conditions *cond)
 	return (0);
 }
 
-// Falseo la marca de tiempo.
 void	join_threads_and_printdie(t_conditions *conditions)
 {
 	int i;
@@ -145,4 +135,5 @@ void	join_threads_and_printdie(t_conditions *conditions)
 		printf("%lld %s%d%s", t_dead, YELLOW, id + 1, RESET);
 		printf(" %sdied%s %s\n", RED, RESET, SKULL);
 	}
+	print_all_philos_eats(conditions);
 }

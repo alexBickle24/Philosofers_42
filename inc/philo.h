@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:29:14 by alex              #+#    #+#             */
-/*   Updated: 2025/09/19 13:27:36 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 14:57:21 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,19 @@ typedef struct philo_data
 	long long	*t_eat;
 	long long	*t_sleep;
 	int			*n_philos;
-	int			mphilo_id;//qur nuemro de filofo es 
-	long long	time_last_meal;//(escribe philo -  lee start_end)
-	int			n_times_eats;//(escribe philo - lee start_end)
-	long long	timestamp;//para el ultimo cambio de estado del philosofo
-	int			last_state;//(escribe philo - lee logging)
+	int			mphilo_id;
+	long long	time_last_meal;
+	int			n_times_eats;
+	long long	timestamp;
+	int			last_state;
 	int			*stop_game;
 	long long	init_time;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*m_fd;//un mutex para cada fork (philos-philos)
-	pthread_mutex_t	*m_state;//para cambio de estado (philos-loggin)
-	pthread_mutex_t	*m_tmeal;//para cambio de ultima comida y numero de comidas(philos-start_end)
-	pthread_mutex_t	*m_stop;//para consultar cuando se esta comiendo y liberar el mutex (start_end - philos)
+	pthread_mutex_t	*m_fd;
+	pthread_mutex_t	*m_tmeal;
+	pthread_mutex_t	*m_stop;
+	//blockstart
 }		t_philo;
 
 //Estrcutura con los datos de los arguemtnos de los philososofos
@@ -67,29 +67,28 @@ typedef struct program_conditions
 	int			start;//
 	long long	dead;
 	int			*sucess;
-	int			*stop_game; //esta variable solo se escribe desde hilo control y leen continuamente los hilos de ejecucion.
-	pthread_t	**threads;//los hilos de los filofofos (handler)
-	pthread_t	*start_end_thread;//el hilo de comprobacion de muerte
-	pthread_mutex_t	*m_fd;//un mutex para cada fork (philos-philos);
-	pthread_mutex_t	**m_forks;//un mutex para cada fork (philos-philos)
-	pthread_mutex_t	**m_blockstart;//un mutex para cada fork (philos-philos)
-	pthread_mutex_t	**m_state;//para cambio de estado (philos-loggin)
-	pthread_mutex_t	**m_tmeal;//para cambio de ultima comida y numero de comidas(philos-start_end)
-	pthread_mutex_t	**m_stop;//para que los philos la lean y comprueben si tiene que liberar el mutex
-	t_philo	**philos;//datos de control de cada philosofo
+	int			*stop_game; 
+	pthread_t	**threads;
+	pthread_t	*start_end_thread;
+	pthread_mutex_t	*m_fd;
+	pthread_mutex_t	**m_forks;
+	pthread_mutex_t	**m_blockstart;//
+	pthread_mutex_t	**m_tmeal;
+	pthread_mutex_t	**m_stop;
+	t_philo	**philos;
 }	t_conditions;
 
 //debugin
-void print_conditions(t_conditions *conditions);
+void	print_all_philos_eats(t_conditions *conditions);
+void	print_all_philos_fields(t_conditions *conditions);
 
 //free and close
 void	free_data(t_conditions **conditions);
 void	free_philosids(t_conditions *conditions);
 void	free_all_mutexes(t_conditions *conditions);
-void	free_blockstart_mutexes(t_conditions *conditions);
+void	free_blockstart_mutexes(t_conditions *conditions);//
 void	free_stop_mutexes(t_conditions *conditions);
 void	free_tmeal_mutexes(t_conditions *conditions);
-void	free_state_mutexes(t_conditions *conditions);
 void	free_fork_mutexes(t_conditions *conditions);
 void	free_threads(t_conditions *conditions);
 int		ft_errorsargs(void);
@@ -104,7 +103,7 @@ char	setup_multithread(t_conditions *cond);
 char	create_philos_data(t_conditions *cond);
 char	prepare_threads(t_conditions *cond);
 char	prepare_mutex(t_conditions *con);
-char	create_blockstart_mutex(t_conditions *con, int n);
+char	create_blockstart_mutex(t_conditions *con, int n);//
 char	create_mutex(t_conditions *cond);
 
 //create threads
@@ -135,11 +134,4 @@ void	join_threads_and_printdie(t_conditions *conditions);
 //destroy multithreating
 char	destroy_mutex(t_conditions *cond);
 
-
-
-
-
 #endif
-
-
-

@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:56:21 by alex              #+#    #+#             */
-/*   Updated: 2025/09/19 13:18:31 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 14:59:37 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,15 @@ int main(int argc, char **argv)
 	t_conditions *p_data;
 
 	if (parsing_imput_fill_data(&p_data, argv, argc))
+	{
+		printf("sale por formating\n");
 		return (1);
+	}
 	if (setup_multithread(p_data))
 	{
-		printf("sale por aqui\n");
+		printf("sale por multithreating\n");
 		return(1);
 	}
-	//hata aqui funciona
-	// print_conditions(p_data);//
 	create_mutex(p_data);
 	create_threads(p_data);
 	join_threads_and_printdie(p_data);
@@ -34,7 +35,6 @@ int main(int argc, char **argv)
 	
 }
 
-//Parseo de argumentos y estrcutura de control
 int	parsing_imput_fill_data(t_conditions **p_data, char **argv, int argc)
 {
 	int	i;
@@ -86,18 +86,17 @@ char	setup_multithread(t_conditions *cond)
 {
 	if (prepare_threads(cond) || prepare_mutex(cond))
 	{
-		printf("hdsaila\n");
+		printf("falla 1\n");//
 		return (free_data(&cond), 1);
 	}
 	if (create_philos_data(cond))
 	{
-		printf("hila\n");
+		printf("falla 2\n");//
 		return (free_data(&cond), 1);
 	}
 	return (0);
 }
 
-//preparar los recursos necesarios del proceso (hilos y mutex)
 char	prepare_threads(t_conditions *cond)
 {
 	int	i;
@@ -133,24 +132,19 @@ char	prepare_mutex(t_conditions *con)
 	if (!con)
 		return (1);
 	con->m_forks = (pthread_mutex_t **)ft_calloc(sizeof(pthread_mutex_t *), n);
-	con->m_state = (pthread_mutex_t **)ft_calloc(sizeof(pthread_mutex_t *), n);
 	con->m_tmeal = (pthread_mutex_t **)ft_calloc(sizeof(pthread_mutex_t *), n);
 	con->m_stop = (pthread_mutex_t **)ft_calloc(sizeof(pthread_mutex_t *), n);
-	if (!con->m_forks || !con->m_state || !con->m_tmeal || !con->stop_game)
+	if (!con->m_forks || !con->m_tmeal || !con->stop_game)
 		return (1);
 	while (++i < n)
 	{
 		con->m_forks[i] = malloc(sizeof(pthread_mutex_t));
-		con->m_state[i] = malloc(sizeof(pthread_mutex_t));
 		con->m_tmeal[i] = malloc(sizeof(pthread_mutex_t));
 		con->m_stop[i] = malloc(sizeof(pthread_mutex_t));
-		if (!con->m_forks[i] || !con->m_state[i] || !con->m_tmeal[i]
-			|| !con->m_stop[i])
-		{
+		if (!con->m_forks[i]  || !con->m_tmeal[i] || !con->m_stop[i])
 			return (1);
-		}
 	}
-	if (n >= 20)
+	if (n >= 20)//
 	{
 		if (create_blockstart_mutex(con, n))
 			return (1);
@@ -161,7 +155,7 @@ char	prepare_mutex(t_conditions *con)
 	return (0);
 }
 
-char	create_blockstart_mutex(t_conditions *con, int n)
+char	create_blockstart_mutex(t_conditions *con, int n)//
 {
 	int	i;
 

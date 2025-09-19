@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:42:23 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 13:05:21 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 15:09:23 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ char	thinking_on_nothing(t_philo *philo)
 	philo->timestamp = get_timestamp() - philo->init_time;
 	philo->last_state = S_THINKING;
 	print_philo(philo, philo->mphilo_id, S_THINKING, philo->timestamp);
-	pthread_mutex_unlock(philo->m_state);
 	return(0);
 }
 
@@ -84,7 +83,7 @@ char jungle(t_philo *philo)
     usleep_t = usleep_time_working(MS_FREC);
 
     // Toma de tenedores
-    if (philo->mphilo_id == *(philo->n_philos) - 1)
+    if (philo->mphilo_id == *(philo->n_philos) - 1 /*&& *(philo->n_philos) != 2*/)
     {
         pthread_mutex_lock(philo->right_fork);
         pthread_mutex_lock(philo->left_fork);
