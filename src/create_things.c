@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:14:10 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 17:14:00 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 19:45:23 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,17 @@ char	create_philos_data(t_conditions *cond)
 			return (1);
 		cond->philos[i]->mphilo_id = i;
 		if (i == 0)
+		{
 			cond->philos[i]->left_fork = cond->m_forks[cond->n_philos - 1];
+			cond->philos[i]->fork_l = &(cond->forks[cond->n_philos - 1]);
+		}
 		else
+		{
 			cond->philos[i]->left_fork = cond->m_forks[i - 1];
+			cond->philos[i]->fork_l = &(cond->forks[i - 1]);
+		}
 		cond->philos[i]->right_fork = cond->m_forks[i];
+		cond->philos[i]->fork_r = &(cond->forks[i]);
 		cond->philos[i]->m_tmeal = cond->m_tmeal[i];
 		cond->philos[i]->m_stop = cond->m_stop[i];
 		cond->philos[i]->m_fd = cond->m_fd;

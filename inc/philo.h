@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:29:14 by alex              #+#    #+#             */
-/*   Updated: 2025/09/19 17:09:54 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 19:29:50 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ typedef struct philo_data
 	int			last_state;
 	int			*stop_game;
 	long long	init_time;
+	int			*fork_r;
+	int			*fork_l;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*m_fd;
@@ -66,6 +68,7 @@ typedef struct program_conditions
 	long long	hm_eats;
 	int			start;//
 	long long	dead;
+	int			*forks;
 	int			*sucess;
 	int			*stop_game; 
 	pthread_t	**threads;

@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:56:21 by alex              #+#    #+#             */
-/*   Updated: 2025/09/19 14:59:37 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 19:27:24 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ t_conditions	*fill_data(char **argv, int argc)
 		p_data->hm_eats = -1;
 	p_data->stop_game = (int *)ft_calloc(sizeof(int), p_data->n_philos);
 	p_data->sucess = (int *)ft_calloc(sizeof(int), p_data->n_philos);
-	if (p_data->stop_game == NULL || p_data->sucess == NULL)
+	p_data->forks = (int *)ft_calloc(sizeof(int), p_data->n_philos);
+	if (p_data->stop_game == NULL || p_data->sucess == NULL || p_data->forks == NULL)
 		return (free_data(&p_data), NULL);
 	return (p_data);
 }
@@ -144,30 +145,9 @@ char	prepare_mutex(t_conditions *con)
 		if (!con->m_forks[i]  || !con->m_tmeal[i] || !con->m_stop[i])
 			return (1);
 	}
-	if (n >= 20)//
-	{
-		if (create_blockstart_mutex(con, n))
-			return (1);
-	}
 	con->m_fd = malloc(sizeof(pthread_mutex_t));
 	if (!con->m_fd)
 		return (1);
 	return (0);
 }
 
-char	create_blockstart_mutex(t_conditions *con, int n)//
-{
-	int	i;
-
-	i = -1;
-	con->m_blockstart = (pthread_mutex_t **)ft_calloc(sizeof(pthread_mutex_t *), n);
-	if (!con->m_blockstart)
-		return (1);
-	while (++i < n)
-	{
-		con->m_blockstart[i] = malloc(sizeof(pthread_mutex_t));
-		if (!con->m_blockstart[i])
-			return (1);
-	}
-	return(0);
-}

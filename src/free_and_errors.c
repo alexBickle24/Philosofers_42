@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:42:25 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 14:40:41 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/19 19:16:26 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	free_data(t_conditions **conditions)
 		return ;
 	free(conditions[0]->stop_game);
 	free(conditions[0]->sucess);
+	free(conditions[0]->forks);
 	free_philosids(conditions[0]);
 	free_all_mutexes(conditions[0]);
 	free_threads(conditions[0]);
