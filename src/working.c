@@ -6,20 +6,15 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:42:23 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 23:24:47 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/20 01:23:59 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-char	drop_right_fork(t_philo *phi);
-char	drop_left_fork(t_philo *phi);
-char	take_right_fork(t_philo *phi, long long *start);
-char	take_left_fork(t_philo *phi, long long *start);
-
 void	*game_r(void *arg)
 {
-	t_philo *philo_i;
+	t_philo	*philo_i;
 
 	philo_i = (t_philo *)arg;
 	pthread_mutex_lock(philo_i->m_tmeal);
@@ -35,19 +30,19 @@ void	*game_r(void *arg)
 		melatonine(philo_i);
 	while (!stop_thread(philo_i))
 	{
-		if (jungle(philo_i)) // intentar comer
-			break;
+		if (jungle(philo_i))// intentar comer
+			break ;
 		if (melatonine(philo_i)) // dormir
-			break;
+			break ;
 	}
 	return (NULL);
 }
 
 char	melatonine(t_philo *philo)
 {
-	long long inicio;
-	long long time_doing;
-	long long usleep_t;
+	long long	inicio;
+	long long	time_doing;
+	long long	usleep_t;
 
 	inicio = get_timestamp();
 	philo->timestamp = inicio - philo->init_time;
@@ -75,10 +70,10 @@ char	thinking_on_nothing(t_philo *philo)
 	philo->timestamp = get_timestamp() - philo->init_time;
 	philo->last_state = S_THINKING;
 	print_philo(philo, philo->mphilo_id, S_THINKING, philo->timestamp);
-	return(0);
+	return (0);
 }
 
-char jungle(t_philo *philo)
+char	jungle(t_philo *philo)
 {
 	long long	usleep_t;
 	long long	start;
@@ -127,66 +122,17 @@ char jungle(t_philo *philo)
 	return (ret);
 }
 
-char	take_right_fork(t_philo *phi, long long *start)
-{
-	pthread_mutex_lock(phi->right_fork);
-	if (!*(phi->fork_r))
-	{
-		*start = get_timestamp();
-		phi->timestamp = *start - phi->init_time;
-		*(phi->fork_r) = 1;
-		print_philo(phi, phi->mphilo_id, S_TAKING_FORK_RIGHT, phi->timestamp);
-		return (0);
-	}
-	return (1);
-}
-
-char	take_left_fork(t_philo *phi, long long *start)
-{
-	pthread_mutex_lock(phi->left_fork);
-	if (!*(phi->fork_l))
-	{
-		*start = get_timestamp();
-		phi->timestamp = *start - phi->init_time;
-		*(phi->fork_l) = 1;
-		print_philo(phi, phi->mphilo_id, S_TAKING_FORK_LEFT, phi->timestamp);
-		return (0);
-	}
-	return (1);
-}
-
-char	drop_left_fork(t_philo *phi)
-{
-	if (*(phi->fork_l))
-	{
-		*(phi->fork_l) = 0;
-		pthread_mutex_unlock(phi->left_fork);
-		return (0);
-	}
-	return (1);
-}
-
-char	drop_right_fork(t_philo *phi)
-{
-	if (*(phi->fork_r))
-	{
-		*(phi->fork_r) = 0;
-		pthread_mutex_unlock(phi->right_fork);
-		return (0);
-	}
-	return (1);
-}
-
 char	gains(t_philo *philo, long long inicio, long long usleep_t)
 {
 	long long	time_doing;
-	
+
+	(void)usleep_t;
 	time_doing = get_timestamp() - inicio;
 	while (time_doing <= *(philo->t_eat))
 	{
 		if (stop_thread(philo))
 			return (1);
-		usleep(usleep_t);
+		usleep(50);
 		time_doing = get_timestamp() - inicio;
 	}
 	pthread_mutex_lock(philo->m_tmeal);
@@ -194,21 +140,4 @@ char	gains(t_philo *philo, long long inicio, long long usleep_t)
 	philo->n_times_eats++;
 	pthread_mutex_unlock(philo->m_tmeal);
 	return (0);
-}
-
-void	print_philo(t_philo *philos, int id, int new_state, long long timestamp)
-{
-	pthread_mutex_lock(philos->m_fd);
-	printf("%lld %s%d%s", timestamp, YELLOW, id + 1, RESET);
-	if (new_state == S_SLEEPING)
-		printf(" %sis sleeping%s %s\n", LIGHT_BLUE, RESET, MOON);
-	if (new_state == S_THINKING)
-		printf(" %sis thinking%s %s\n", BLUE, RESET, BRAIN);
-	if (new_state == S_TAKING_FORK_LEFT) 
-		printf(" %shas taken a fork%s %s\n", GRAY, RESET, FORK);
-	if (new_state == S_TAKING_FORK_RIGHT)
-		printf(" %shas taken a fork%s %s\n", GRAY, RESET, FORK);
-	if (new_state == S_EATING)
-		printf(" %sis eating%s %s\n", GREEN, RESET, STEAK);
-	pthread_mutex_unlock(philos->m_fd);
 }

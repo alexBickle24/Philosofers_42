@@ -6,13 +6,13 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:02:32 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 17:11:01 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/20 01:16:38 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	print_all_philos_eats(t_conditions *conditions)
+void	print_all_philos_eats(t_cond *conditions)
 {
     if (!conditions || !conditions->philos)
     {
@@ -34,7 +34,7 @@ void	print_all_philos_eats(t_conditions *conditions)
 }
 
 
-void	print_all_philos_last_meal(t_conditions *conditions)
+void	print_all_philos_last_meal(t_cond *conditions)
 {
     if (!conditions || !conditions->philos)
     {
@@ -55,7 +55,7 @@ void	print_all_philos_last_meal(t_conditions *conditions)
     }
 }
 
-void	print_all_philos_fields(t_conditions *conditions)
+void	print_all_philos_fields(t_cond *conditions)
 {
     if (!conditions || !conditions->philos)
     {

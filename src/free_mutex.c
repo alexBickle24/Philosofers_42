@@ -6,18 +6,18 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:12:01 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 19:27:57 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/20 01:17:15 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	free_fork_mutexes(t_conditions *conditions)
+void	free_fork_mutexes(t_cond *conditions)
 {
 	int	i;
 
 	if (conditions == NULL || conditions->m_forks == NULL)
-		return;
+		return ;
 	i = -1;
 	while (++i < conditions->n_philos)
 	{
@@ -31,12 +31,12 @@ void	free_fork_mutexes(t_conditions *conditions)
 	conditions->m_forks = NULL;
 }
 
-void	free_tmeal_mutexes(t_conditions *conditions)
+void	free_tmeal_mutexes(t_cond *conditions)
 {
 	int	i;
 
 	if (conditions == NULL || conditions->m_tmeal == NULL)
-		return;
+		return ;
 	i = -1;
 	while (++i < conditions->n_philos)
 	{
@@ -50,12 +50,12 @@ void	free_tmeal_mutexes(t_conditions *conditions)
 	conditions->m_tmeal = NULL;
 }
 
-void	free_stop_mutexes(t_conditions *conditions)
+void	free_stop_mutexes(t_cond *conditions)
 {
 	int	i;
 
 	if (conditions == NULL || conditions->m_stop == NULL)
-		return;
+		return ;
 	i = -1;
 	while (++i < conditions->n_philos)
 	{
@@ -69,10 +69,10 @@ void	free_stop_mutexes(t_conditions *conditions)
 	conditions->m_stop = NULL;
 }
 
-void	free_all_mutexes(t_conditions *conditions)
+void	free_all_mutexes(t_cond *conditions)
 {
 	if (conditions == NULL)
-		return;
+		return ;
 	free(conditions->m_fd);
 	free_stop_mutexes(conditions);
 	free_fork_mutexes(conditions);

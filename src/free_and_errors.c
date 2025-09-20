@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:42:25 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/19 19:16:26 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/20 01:16:52 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_errorsargs1(void)
 	return (1);
 }
 
-void	free_data(t_conditions **conditions)
+void	free_data(t_cond **conditions)
 {
 	if (conditions == NULL)
 		return ;
@@ -38,7 +38,7 @@ void	free_data(t_conditions **conditions)
 	*conditions = NULL;
 }
 
-void	free_philosids(t_conditions *conditions)
+void	free_philosids(t_cond *conditions)
 {
 	int	i;
 
@@ -55,7 +55,7 @@ void	free_philosids(t_conditions *conditions)
 	conditions->philos = NULL;
 }
 
-void	free_threads(t_conditions *conditions)
+void	free_threads(t_cond *conditions)
 {
 	int	i;
 

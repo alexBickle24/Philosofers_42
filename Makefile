@@ -16,10 +16,12 @@ SRC_FILES = main.c\
 			debugin.c\
 			free_and_errors.c\
 			free_mutex.c\
-			create_things.c\
+			set_mthr.c\
+			threads_mutex.c\
+			time_stop.c\
 			control.c\
 			working.c\
-			time.c
+			working2.c
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
