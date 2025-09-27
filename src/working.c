@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:42:23 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/20 01:23:59 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/09/27 16:23:47 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,37 @@ char	jungle(t_philo *philo)
 	}
 	return (ret);
 }
+
+// int	take_forks(t_philo *philo, long long *start)
+// {
+// 	if (philo->mphilo_id == *(philo->n_philos) - 1)
+// 	{
+// 		if(!take_right_fork(philo, &start) && !take_left_fork(philo, &start))
+// 		{
+// 			if (stop_thread(philo))
+// 			{
+// 				pthread_mutex_unlock(philo->left_fork);
+// 				pthread_mutex_unlock(philo->right_fork);
+// 				return (1);
+// 			}
+// 			print_philo(philo, philo->mphilo_id, S_EATING, philo->timestamp);
+// 		}
+// 	}
+// 	else
+// 	{
+// 		if(!take_left_fork(philo, &start) && !take_right_fork(philo, &start))
+// 		{
+// 			if (stop_thread(philo))
+// 			{
+// 				pthread_mutex_unlock(philo->left_fork);
+// 				pthread_mutex_unlock(philo->right_fork);
+// 				return (1);
+// 			}
+// 			print_philo(philo, philo->mphilo_id, S_EATING, philo->timestamp);
+// 		}
+// 	}
+// 	return (0);
+// }
 
 char	gains(t_philo *philo, long long inicio, long long usleep_t)
 {
