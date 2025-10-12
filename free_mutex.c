@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free_mutex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
+/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:12:01 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/20 01:17:15 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/12 23:49:24 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "philo.h"
 
 void	free_fork_mutexes(t_cond *conditions)
 {

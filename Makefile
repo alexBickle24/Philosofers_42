@@ -2,28 +2,21 @@ NAME = philo
 CC = cc
 FLAGS = -Wall -Wextra -Werror 
 RM = rm -rf
-MKDIR = mkdir -p # Si ya existe no da problemas
+MKDIR = mkdir -p
 
-INCLUDE_DIR = inc
-LIBFT_DIR = inc/libft
+LIBFT_DIR = libft
 LIBFT_A = $(LIBFT_DIR)/libft.a
-INCLUDE_FLAG = -I$(INCLUDE_DIR) -I$(LIBFT_DIR)
-INCLUDE = $(INCLUDE_DIR)/philo.h
-
-SRC_DIR = src/
 
 SRC_FILES = main.c\
-			debugin.c\
-			free_and_errors.c\
-			free_mutex.c\
-			set_mthr.c\
-			threads_mutex.c\
-			time_stop.c\
-			control.c\
-			working.c\
-			working2.c
-
-SRCS = $(addprefix $(SRC_DIR), $(SRC_FILES))
+            free_and_errors.c\
+            free_mutex.c\
+            set_mthr.c\
+            threads_mutex.c\
+            time_stop.c\
+            control.c\
+            working.c\
+            working2.c\
+            working3.c
 
 OBJ_DIR = obj/
 OBJ_FILES = $(SRC_FILES:.c=.o)
@@ -39,10 +32,10 @@ $(LIBFT_A):
 
 $(NAME): $(OBJS) $(LIBFT_A)
 	@$(CC) $(FLAGS) $(OBJS) $(LIBFT_A) -o $(NAME)
-	
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INCLUDE)
+
+$(OBJ_DIR)%.o: %.c
 	@$(MKDIR) $(dir $@)
-	@$(CC) $(FLAGS) $(INCLUDE_FLAG) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 
 clean:
 	@$(RM) $(OBJ_DIR)

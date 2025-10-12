@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   working.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
+/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:42:23 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/27 16:23:47 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/12 23:49:41 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "philo.h"
 
 void	*game_r(void *arg)
 {
@@ -30,9 +30,9 @@ void	*game_r(void *arg)
 		melatonine(philo_i);
 	while (!stop_thread(philo_i))
 	{
-		if (jungle(philo_i))// intentar comer
+		if (jungle(philo_i))
 			break ;
-		if (melatonine(philo_i)) // dormir
+		if (melatonine(philo_i))
 			break ;
 	}
 	return (NULL);
@@ -81,89 +81,33 @@ char	jungle(t_philo *philo)
 
 	if (stop_thread(philo))
 		return (1);
-	usleep_t = usleep_time_working(1);
-	if (philo->mphilo_id == *(philo->n_philos) - 1)
-	{
-		if(!take_right_fork(philo, &start) && !take_left_fork(philo, &start))
-		{
-			if (stop_thread(philo))
-			{
-				pthread_mutex_unlock(philo->left_fork);
-				pthread_mutex_unlock(philo->right_fork);
-				return (1);
-			}
-			print_philo(philo, philo->mphilo_id, S_EATING, philo->timestamp);
-		}
-	}
-	else
-	{
-		if(!take_left_fork(philo, &start) && !take_right_fork(philo, &start))
-		{
-			if (stop_thread(philo))
-			{
-				pthread_mutex_unlock(philo->left_fork);
-				pthread_mutex_unlock(philo->right_fork);
-				return (1);
-			}
-			print_philo(philo, philo->mphilo_id, S_EATING, philo->timestamp);
-		}
-	}
+	usleep_t = usleep_time_working(MS_FREC);
+	if (take_forks(philo, &start))
+		return (1);
 	ret = gains(philo, start, usleep_t);
 	if (philo->mphilo_id == *(philo->n_philos) - 1)
 	{
-		if(!drop_left_fork(philo) && !drop_right_fork(philo))
-			return(ret);
+		if (!drop_left_fork(philo) && !drop_right_fork(philo))
+			return (ret);
 	}
 	else
 	{
-		if(!drop_right_fork(philo) && !drop_left_fork(philo))
-			return(ret);
+		if (!drop_right_fork(philo) && !drop_left_fork(philo))
+			return (ret);
 	}
 	return (ret);
 }
-
-// int	take_forks(t_philo *philo, long long *start)
-// {
-// 	if (philo->mphilo_id == *(philo->n_philos) - 1)
-// 	{
-// 		if(!take_right_fork(philo, &start) && !take_left_fork(philo, &start))
-// 		{
-// 			if (stop_thread(philo))
-// 			{
-// 				pthread_mutex_unlock(philo->left_fork);
-// 				pthread_mutex_unlock(philo->right_fork);
-// 				return (1);
-// 			}
-// 			print_philo(philo, philo->mphilo_id, S_EATING, philo->timestamp);
-// 		}
-// 	}
-// 	else
-// 	{
-// 		if(!take_left_fork(philo, &start) && !take_right_fork(philo, &start))
-// 		{
-// 			if (stop_thread(philo))
-// 			{
-// 				pthread_mutex_unlock(philo->left_fork);
-// 				pthread_mutex_unlock(philo->right_fork);
-// 				return (1);
-// 			}
-// 			print_philo(philo, philo->mphilo_id, S_EATING, philo->timestamp);
-// 		}
-// 	}
-// 	return (0);
-// }
 
 char	gains(t_philo *philo, long long inicio, long long usleep_t)
 {
 	long long	time_doing;
 
-	(void)usleep_t;
 	time_doing = get_timestamp() - inicio;
 	while (time_doing <= *(philo->t_eat))
 	{
 		if (stop_thread(philo))
 			return (1);
-		usleep(50);
+		usleep(usleep_t);
 		time_doing = get_timestamp() - inicio;
 	}
 	pthread_mutex_lock(philo->m_tmeal);

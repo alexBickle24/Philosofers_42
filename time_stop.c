@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   time_stop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
+/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 02:24:25 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/20 00:26:38 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/12 23:49:38 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "philo.h"
 
 long long	usleep_time_controler(int num_philos, int frec_pp)
 {
@@ -25,7 +25,7 @@ long long	usleep_time_controler(int num_philos, int frec_pp)
 		else
 			break ;
 	}
-	microsec = milisec * 1000;
+	microsec = milisec * 500;
 	return (microsec);
 }
 

@@ -3,29 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
+/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:56:21 by alex              #+#    #+#             */
-/*   Updated: 2025/09/20 01:17:42 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/12 23:49:07 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "philo.h"
 
 int	main(int argc, char **argv)
 {
 	t_cond	*p_data;
 
 	if (parsing_fill(&p_data, argv, argc))
-	{
-		printf("sale por formating\n");//
 		return (1);
-	}
 	if (setup_multithread(p_data))
-	{
-		printf("sale por multithreating\n");//
 		return (1);
-	}
 	create_mutex(p_data);
 	create_threads(p_data);
 	join_threads_and_printdie(p_data);

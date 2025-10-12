@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
+/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:29:14 by alex              #+#    #+#             */
-/*   Updated: 2025/09/20 01:36:11 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/12 23:50:03 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include "../libft/libft.h"
+# include "libft/libft.h"
 # include "colors.h"
 # include <sys/time.h>
 # include <pthread.h>
@@ -127,8 +127,10 @@ char		jungle(t_philo *philo);
 char		gains(t_philo *philo, long long inicio, long long usleep_t);
 char		drop_right_fork(t_philo *phi);
 char		drop_left_fork(t_philo *phi);
+int			take_forks(t_philo *philo, long long *start);
 char		take_right_fork(t_philo *phi, long long *start);
 char		take_left_fork(t_philo *phi, long long *start);
+int			fork_fail(t_philo *philo);
 void		print_philo(t_philo *philos, int id, int new_state,
 				long long timestamp);
 

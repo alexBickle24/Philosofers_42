@@ -3,27 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   set_mthr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
+/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 00:33:39 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/20 01:18:03 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/12 23:49:30 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "philo.h"
 
 char	setup_multithread(t_cond *cond)
 {
 	if (prepare_threads(cond) || prepare_mutex(cond))
-	{
-		printf("falla 1\n");//
 		return (free_data(&cond), 1);
-	}
 	if (create_philos_data(cond))
-	{
-		printf("falla 2\n");//
 		return (free_data(&cond), 1);
-	}
 	return (0);
 }
 
@@ -37,7 +31,7 @@ char	create_philos_data(t_cond *cond)
 	i = -1;
 	while (++i < cond->n_philos)
 	{
-		cond->philos[i] = (t_philo*)ft_calloc(sizeof(t_philo), 1);
+		cond->philos[i] = (t_philo *)ft_calloc(sizeof(t_philo), 1);
 		if (!cond->philos[i])
 			return (1);
 		cond->philos[i]->mphilo_id = i;

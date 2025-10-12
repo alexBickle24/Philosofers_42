@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   threads_mutex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
+/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:14:10 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/20 01:18:26 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/12 23:49:34 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "philo.h"
 
 char	create_mutex(t_cond *cond)
 {

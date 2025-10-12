@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free_and_errors.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
+/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:42:25 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/20 01:16:52 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/12 23:49:19 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "philo.h"
 
 int	ft_errorsargs(void)
 {

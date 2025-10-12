@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   working2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
+/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 00:56:04 by alejandro         #+#    #+#             */
-/*   Updated: 2025/09/27 16:23:53 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/12 23:49:45 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "philo.h"
 
 char	take_right_fork(t_philo *phi, long long *start)
 {
