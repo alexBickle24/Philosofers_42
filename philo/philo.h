@@ -6,7 +6,7 @@
 /*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:29:14 by alex              #+#    #+#             */
-/*   Updated: 2025/10/12 23:50:03 by alcarril         ###   ########.fr       */
+/*   Updated: 2025/10/24 16:21:04 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef enum s_philo_state
 	S_DIED,
 }	t_philo_state;
 
-//Datos del filosofo
 typedef struct philo_data
 {
 	long long		*t_eat;
@@ -54,10 +53,8 @@ typedef struct philo_data
 	pthread_mutex_t	*m_fd;
 	pthread_mutex_t	*m_tmeal;
 	pthread_mutex_t	*m_stop;
-	//blockstart
 }		t_philo;
 
-//Estrcutura con los datos de los arguemtnos de los philososofos
 typedef struct program_conditions
 {
 	int				n_philos;
@@ -65,7 +62,7 @@ typedef struct program_conditions
 	long long		t_sleep;
 	long long		t_eat;
 	long long		hm_eats;
-	int				start;//
+	int				start;
 	long long		dead;
 	int				*forks;
 	int				*sucess;
@@ -74,16 +71,10 @@ typedef struct program_conditions
 	pthread_t		*start_end_thread;
 	pthread_mutex_t	*m_fd;
 	pthread_mutex_t	**m_forks;
-	pthread_mutex_t	**m_blockstart;//
 	pthread_mutex_t	**m_tmeal;
 	pthread_mutex_t	**m_stop;
 	t_philo			**philos;
 }	t_cond;
-
-//debugin
-void		print_all_philos_eats(t_cond *conditions);
-void		print_all_philos_fields(t_cond *conditions);
-void		print_all_philos_last_meal(t_cond *conditions);
 
 //free and close
 void		free_data(t_cond **conditions);

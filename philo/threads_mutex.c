@@ -6,7 +6,7 @@
 /*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:14:10 by alejandro         #+#    #+#             */
-/*   Updated: 2025/10/12 23:49:34 by alcarril         ###   ########.fr       */
+/*   Updated: 2025/10/24 16:22:18 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,6 @@ char	create_mutex(t_cond *cond)
 		ret4 = pthread_mutex_init(cond->m_stop[i], NULL);
 		if (ret1 || ret2 || ret4)
 			return (1);
-		if (cond->n_philos >= 20)
-		{
-			if (pthread_mutex_init(cond->m_blockstart[i], NULL))
-				return (1);
-		}
 		i++;
 	}
 	pthread_mutex_init(cond->m_fd, NULL);
@@ -53,11 +48,6 @@ char	destroy_mutex(t_cond *cond)
 		ret4 = pthread_mutex_destroy(cond->m_stop[i]);
 		if (ret1 || ret2 || ret4)
 			return (1);
-		if (cond->n_philos >= 20)
-		{
-			if (pthread_mutex_destroy(cond->m_blockstart[i]))
-				return (1);
-		}
 		i++;
 	}
 	pthread_mutex_destroy(cond->m_fd);
