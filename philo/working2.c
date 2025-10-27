@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   working2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 00:56:04 by alejandro         #+#    #+#             */
-/*   Updated: 2025/10/12 23:49:45 by alcarril         ###   ########.fr       */
+/*   Updated: 2025/10/27 08:09:37 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/**
+ * @brief Attempts to take the right fork for the philosopher.
+ * 
+ * This function locks the mutex for the right fork and checks if the fork is
+ * available. If the fork is available, it marks it as taken, updates the
+ * philosopher's timestamp, and prints the corresponding message.
+ * 
+ * @param phi Pointer to the philosopher's data structure (`t_philo`).
+ * @param start Pointer to the timestamp when the fork was taken.
+ * @return Returns 0 if the fork is successfully taken, or 1 otherwise.
+ * 
+ * @note Mutexes ensure that only one philosopher can take the fork at a time,
+ * preventing data races and ensuring proper synchronization.
+ */
 
 char	take_right_fork(t_philo *phi, long long *start)
 {
@@ -26,6 +41,20 @@ char	take_right_fork(t_philo *phi, long long *start)
 	return (1);
 }
 
+/**
+ * @brief Attempts to take the left fork for the philosopher.
+ * 
+ * This function locks the mutex for the left fork and checks if the fork is
+ * available. If the fork is available, it marks it as taken, updates the
+ * philosopher's timestamp, and prints the corresponding message.
+ * 
+ * @param phi Pointer to the philosopher's data structure (`t_philo`).
+ * @param start Pointer to the timestamp when the fork was taken.
+ * @return Returns 0 if the fork is successfully taken, or 1 otherwise.
+ * 
+ * @note The same synchronization principles apply as with the right fork.
+ */
+
 char	take_left_fork(t_philo *phi, long long *start)
 {
 	pthread_mutex_lock(phi->left_fork);
@@ -40,6 +69,20 @@ char	take_left_fork(t_philo *phi, long long *start)
 	return (1);
 }
 
+/**
+ * @brief Releases the left fork for the philosopher.
+ * 
+ * This function marks the left fork as available and unlocks the corresponding
+ * mutex. It ensures that other philosophers can access the fork after it is
+ * released.
+ * 
+ * @param phi Pointer to the philosopher's data structure (`t_philo`).
+ * @return Returns 0 if the fork is successfully released, or 1 otherwise.
+ * 
+ * @note Properly releasing forks is critical to avoid deadlocks and ensure
+ * that all philosophers can progress in the simulation.
+ */
+
 char	drop_left_fork(t_philo *phi)
 {
 	if (*(phi->fork_l))
@@ -51,6 +94,19 @@ char	drop_left_fork(t_philo *phi)
 	return (1);
 }
 
+/**
+ * @brief Releases the right fork for the philosopher.
+ * 
+ * This function marks the right fork as available and unlocks the corresponding
+ * mutex. It ensures that other philosophers can access the fork after it is
+ * released.
+ * 
+ * @param phi Pointer to the philosopher's data structure (`t_philo`).
+ * @return Returns 0 if the fork is successfully released, or 1 otherwise.
+ * 
+ * @note The same principles apply as with the left fork.
+ */
+
 char	drop_right_fork(t_philo *phi)
 {
 	if (*(phi->fork_r))
@@ -61,6 +117,25 @@ char	drop_right_fork(t_philo *phi)
 	}
 	return (1);
 }
+
+/**
+ * @brief Prints the current state of the philosopher.
+ * 
+ * This function locks the mutex for the output stream to ensure that messages
+ * are printed without interference from other threads. It prints the
+ * philosopher's ID, timestamp, and current state (e.g., sleeping, thinking,
+ * eating, or taking a fork).
+ * 
+ * @param philo Pointer to the philosopher's data structure (`t_philo`).
+ * @param id ID of the philosopher.
+ * @param new_state The new state of the philosopher (e.g., S_SLEEPING, S_EATING).
+ * @param timestamp The current timestamp in milliseconds.
+ * 
+ * @note Synchronizing access to the output stream prevents garbled or
+ * overlapping messages when multiple threads attempt to print simultaneously.
+ * This prevents data races in the output, ensuring that each message is
+ * displayed correctly and in order.
+ */
 
 void	print_philo(t_philo *philo, int id, int new_state, long long timestamp)
 {

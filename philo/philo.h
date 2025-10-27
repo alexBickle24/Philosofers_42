@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:29:14 by alex              #+#    #+#             */
-/*   Updated: 2025/10/24 16:21:04 by alcarril         ###   ########.fr       */
+/*   Updated: 2025/10/27 07:52:17 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,30 @@
 # include <errno.h>
 # include <stdio.h>
 
+/**
+ * @brief Defines the frequency in milliseconds for periodic checks.
+ * 
+ * This macro is used to control the frequency at which certain operations,
+ * such as monitoring philosopher states or sleeping intervals, are performed.
+ * It ensures that the simulation runs efficiently without excessive CPU usage.
+ */
+
 # define MS_FREC 5
+
+/**
+ * @enum t_philo_state
+ * @brief Represents the possible states of a philosopher.
+ * 
+ * This enumeration defines the various states a philosopher can be in during
+ * the simulation. These states include:
+ * - S_INIT: Initial state before the simulation starts.
+ * - S_TAKING_FORK_LEFT: Philosopher is taking the left fork.
+ * - S_TAKING_FORK_RIGHT: Philosopher is taking the right fork.
+ * - S_EATING: Philosopher is eating.
+ * - S_SLEEPING: Philosopher is sleeping.
+ * - S_THINKING: Philosopher is thinking.
+ * - S_DIED: Philosopher has died.
+ */
 
 typedef enum s_philo_state
 {
@@ -33,6 +56,23 @@ typedef enum s_philo_state
 	S_THINKING,
 	S_DIED,
 }	t_philo_state;
+
+/**
+ * @struct t_philo
+ * @brief Represents the data associated with a single philosopher.
+ * 
+ * This structure contains all the information and synchronization primitives
+ * required for a philosopher's behavior in the simulation. Key fields include:
+ * - t_eat, t_sleep: Pointers to shared time values for eating and sleeping.
+ * - n_philos: Pointer to the total number of philosophers.
+ * - mphilo_id: Unique ID of the philosopher.
+ * - time_last_meal: Timestamp of the philosopher's last meal.
+ * - n_times_eats: Number of times the philosopher has eaten.
+ * - stop_game: Pointer to a flag indicating whether the simulation should stop.
+ * - fork_r, fork_l: Pointers to the right and left forks.
+ * - right_fork, left_fork: Mutexes for the right and left forks.
+ * - m_fd, m_tmeal, m_stop: Mutexes for shared data and synchronization.
+ */
 
 typedef struct philo_data
 {
@@ -54,6 +94,23 @@ typedef struct philo_data
 	pthread_mutex_t	*m_tmeal;
 	pthread_mutex_t	*m_stop;
 }		t_philo;
+
+/**
+ * @struct t_cond
+ * @brief Represents the shared conditions and state of the simulation.
+ * 
+ * This structure contains all the shared data and synchronization primitives
+ * required for the simulation. Key fields include:
+ * - n_philos: Total number of philosophers.
+ * - t_dead, t_sleep, t_eat: Time values for death, sleeping, and eating.
+ * - hm_eats: Number of meals required for success (optional).
+ * - stop_game, sucess: Arrays for stopping the game and tracking success.
+ * - forks: Array representing the state of each fork.
+ * - threads: Array of philosopher threads.
+ * - start_end_thread: Thread for starting and ending the simulation.
+ * - m_fd, m_forks, m_tmeal, m_stop: Mutexes for forks, meals, and stopping.
+ * - philos: Array of pointers to philosopher data structures.
+ */
 
 typedef struct program_conditions
 {

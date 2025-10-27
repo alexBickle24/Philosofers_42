@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   set_mthr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 00:33:39 by alejandro         #+#    #+#             */
-/*   Updated: 2025/10/12 23:49:30 by alcarril         ###   ########.fr       */
+/*   Updated: 2025/10/27 07:46:06 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/**
+ * @brief Sets up the multithreaded environment for the simulation.
+ * 
+ * This function initializes threads, mutexes, and philosopher data. If any
+ * initialization fails, it frees allocated resources and returns an error.
+ * 
+ * @param cond Pointer to the `t_cond` structure containing shared program state.
+ * @return Returns 0 on success, or 1 if an error occurs.
+ */
 
 char	setup_multithread(t_cond *cond)
 {
@@ -20,6 +30,19 @@ char	setup_multithread(t_cond *cond)
 		return (free_data(&cond), 1);
 	return (0);
 }
+
+/**
+ * @brief Allocates and initializes philosopher data structures.
+ * 
+ * This function creates an array of philosopher structures and initializes
+ * their attributes. Each philosopher points to the mutexes within the `t_cond`
+ * structure for synchronization. The first philosopher's left fork is assigned
+ * to the last fork in the array, ensuring circular organization. For all other
+ * philosophers, the left fork is assigned to the previous philosopher's fork.
+ * 
+ * @param cond Pointer to the `t_cond` structure containing shared program state.
+ * @return Returns 0 on success, or 1 if an error occurs.
+ */
 
 char	create_philos_data(t_cond *cond)
 {
@@ -50,6 +73,18 @@ char	create_philos_data(t_cond *cond)
 	return (0);
 }
 
+/**
+ * @brief Completes the initialization of philosopher data.
+ * 
+ * This function sets additional attributes for each philosopher, such as
+ * pointers to the right fork, left fork, and other shared variables. Each
+ * philosopher directly references the mutexes and shared variables within
+ * the `t_cond` structure, ensuring proper synchronization.
+ * 
+ * @param cond Pointer to the `t_cond` structure containing shared program state.
+ * @param i Index of the philosopher being initialized.
+ */
+
 void	create_philos_data2(t_cond *cond, int i)
 {
 	cond->philos[i]->right_fork = cond->m_forks[i];
@@ -62,6 +97,17 @@ void	create_philos_data2(t_cond *cond, int i)
 	cond->philos[i]->n_philos = &(cond->n_philos);
 	cond->philos[i]->stop_game = &(cond->stop_game[i]);
 }
+
+/**
+ * @brief Prepares thread structures for the simulation.
+ * 
+ * This function allocates memory for philosopher threads and the start/end
+ * thread used for synchronization. It ensures all threads are properly
+ * initialized.
+ * 
+ * @param cond Pointer to the `t_cond` structure containing shared program state.
+ * @return Returns 0 on success, or 1 if an error occurs.
+ */
 
 char	prepare_threads(t_cond *cond)
 {
@@ -87,6 +133,18 @@ char	prepare_threads(t_cond *cond)
 		return (1);
 	return (0);
 }
+
+/**
+ * @brief Prepares mutex structures for the simulation.
+ * 
+ * This function allocates and initializes mutexes for forks, meal tracking,
+ * and stopping conditions. Each philosopher points to the appropriate mutexes
+ * within the `t_cond` structure for synchronization. It ensures all mutexes
+ * are ready for use.
+ * 
+ * @param con Pointer to the `t_cond` structure containing shared program state.
+ * @return Returns 0 on success, or 1 if an error occurs.
+ */
 
 char	prepare_mutex(t_cond *con)
 {

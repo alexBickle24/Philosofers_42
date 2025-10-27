@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:56:21 by alex              #+#    #+#             */
-/*   Updated: 2025/10/12 23:49:07 by alcarril         ###   ########.fr       */
+/*   Updated: 2025/10/27 07:48:52 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/**
+ * @brief Entry point for the philosopher simulation program.
+ * 
+ * This function initializes the simulation by parsing arguments, setting up
+ * multithreading, creating mutexes and threads, and managing cleanup. It
+ * ensures proper resource allocation and deallocation throughout the program.
+ * 
+ * @param argc Number of command-line arguments.
+ * @param argv Array of command-line arguments.
+ * @return Returns 0 on successful execution, or 1 if an error occurs.
+ */
 
 int	main(int argc, char **argv)
 {
@@ -27,6 +39,21 @@ int	main(int argc, char **argv)
 	free_data(&p_data);
 	return (0);
 }
+
+/**
+ * @brief Parses and validates command-line arguments.
+ * 
+ * This function checks the validity of the arguments provided to the program.
+ * It ensures that the correct number of arguments is passed and that all
+ * arguments are numeric and positive, as they represent time values and the
+ * number of philosophers. If valid, it initializes the `t_cond` structure
+ * with the parsed data.
+ * 
+ * @param p_data Double pointer to the `t_cond` structure to be initialized.
+ * @param argv Array of command-line arguments.
+ * @param argc Number of command-line arguments.
+ * @return Returns 0 on success, or 1 if an error occurs.
+ */
 
 int	parsing_fill(t_cond **p_data, char **argv, int argc)
 {
@@ -52,6 +79,20 @@ int	parsing_fill(t_cond **p_data, char **argv, int argc)
 		return (1);
 	return (0);
 }
+
+/**
+ * @brief Allocates and fills the `t_cond` structure with parsed data.
+ * 
+ * This function initializes the `t_cond` structure with values parsed from
+ * the command-line arguments. It ensures that the number of philosophers and
+ * time values are positive. It also allocates memory for shared variables
+ * such as `stop_game`, `sucess`, and `forks`. If any allocation fails, it
+ * frees allocated resources and returns NULL.
+ * 
+ * @param argv Array of command-line arguments.
+ * @param argc Number of command-line arguments.
+ * @return Pointer to the initialized `t_cond` structure, or NULL on failure.
+ */
 
 t_cond	*fill_data(char **argv, int argc)
 {

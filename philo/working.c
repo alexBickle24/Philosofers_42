@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   working.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:42:23 by alejandro         #+#    #+#             */
-/*   Updated: 2025/10/12 23:49:41 by alcarril         ###   ########.fr       */
+/*   Updated: 2025/10/27 08:06:22 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/**
+ * @brief Main routine executed by each philosopher thread.
+ * 
+ * This function initializes the philosopher's timestamps and handles their
+ * behavior in the simulation. Philosophers alternate between eating, sleeping,
+ * and thinking. If there is only one philosopher, they immediately enter a
+ * waiting state (simulating starvation). Odd-numbered philosophers start with
+ * a delay to avoid deadlocks.
+ * 
+ * @param arg Pointer to the philosopher's data structure (`t_philo`).
+ * @return Always returns NULL when the thread terminates.
+ * 
+ * @note Synchronization is achieved using mutexes to ensure safe access to
+ * shared resources, such as the time of the last meal.
+ */
 
 void	*game_r(void *arg)
 {
@@ -38,6 +54,21 @@ void	*game_r(void *arg)
 	return (NULL);
 }
 
+/**
+ * @brief Simulates the sleeping phase of a philosopher.
+ * 
+ * This function makes the philosopher sleep for a specified duration. During
+ * this time, the thread periodically checks if the simulation should stop to
+ * avoid unnecessary delays. The sleep duration is divided into smaller intervals
+ * using `usleep` to ensure responsiveness.
+ * 
+ * @param philo Pointer to the philosopher's data structure (`t_philo`).
+ * @return Returns 1 if the thread should stop, or 0 otherwise.
+ * 
+ * @note Synchronizing sleep intervals reduces CPU usage and ensures that the
+ * simulation remains responsive to changes in the `stop_game` flag.
+ */
+
 char	melatonine(t_philo *philo)
 {
 	long long	inicio;
@@ -63,6 +94,17 @@ char	melatonine(t_philo *philo)
 	return (0);
 }
 
+/**
+ * @brief Simulates the thinking phase of a philosopher.
+ * 
+ * This function updates the philosopher's state to "thinking" and prints the
+ * corresponding message. It does not involve any time delays, as thinking is
+ * considered an instantaneous action in this simulation.
+ * 
+ * @param philo Pointer to the philosopher's data structure (`t_philo`).
+ * @return Returns 1 if the thread should stop, or 0 otherwise.
+ */
+
 char	thinking_on_nothing(t_philo *philo)
 {
 	if (stop_thread(philo))
@@ -72,6 +114,23 @@ char	thinking_on_nothing(t_philo *philo)
 	print_philo(philo, philo->mphilo_id, S_THINKING, philo->timestamp);
 	return (0);
 }
+
+/**
+ * @brief Simulates the eating phase of a philosopher.
+ * 
+ * This function handles the philosopher's attempt to take forks, eat, and then
+ * release the forks. All philosophers attempt to take the right fork first,
+ * followed by the left fork. The order in which the forks are released depends
+ * on the philosopher's position in the array. This ensures proper synchronization
+ * and avoids deadlocks.
+ * 
+ * @param philo Pointer to the philosopher's data structure (`t_philo`).
+ * @return Returns 1 if the thread should stop, or 0 otherwise.
+ * 
+ * @note Proper fork management is critical to avoid deadlocks. Philosophers
+ * release the forks in a specific order: the last philosopher releases the
+ * left fork first, while others release the right fork first.
+ */
 
 char	jungle(t_philo *philo)
 {
@@ -97,6 +156,23 @@ char	jungle(t_philo *philo)
 	}
 	return (ret);
 }
+
+/**
+ * @brief Handles the eating process and updates the philosopher's state.
+ * 
+ * This function makes the philosopher eat for a specified duration. During
+ * this time, the thread periodically checks if the simulation should stop.
+ * After eating, the philosopher's time of the last meal and meal count are
+ * updated in a thread-safe manner using mutexes.
+ * 
+ * @param philo Pointer to the philosopher's data structure (`t_philo`).
+ * @param inicio Timestamp when the eating phase started.
+ * @param usleep_t Sleep interval for periodic checks.
+ * @return Returns 1 if the thread should stop, or 0 otherwise.
+ * 
+ * @note Synchronizing access to the `time_last_meal` and `n_times_eats` fields
+ * ensures that no data races occur when multiple threads access these fields.
+ */
 
 char	gains(t_philo *philo, long long inicio, long long usleep_t)
 {
