@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:56:21 by alex              #+#    #+#             */
-/*   Updated: 2025/10/27 07:48:52 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/27 18:52:21 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
  * @param argv Array of command-line arguments.
  * @return Returns 0 on successful execution, or 1 if an error occurs.
  */
-
 int	main(int argc, char **argv)
 {
 	t_cond	*p_data;
@@ -54,7 +53,6 @@ int	main(int argc, char **argv)
  * @param argc Number of command-line arguments.
  * @return Returns 0 on success, or 1 if an error occurs.
  */
-
 int	parsing_fill(t_cond **p_data, char **argv, int argc)
 {
 	int	i;
@@ -93,7 +91,6 @@ int	parsing_fill(t_cond **p_data, char **argv, int argc)
  * @param argc Number of command-line arguments.
  * @return Pointer to the initialized `t_cond` structure, or NULL on failure.
  */
-
 t_cond	*fill_data(char **argv, int argc)
 {
 	t_cond	*p_data;

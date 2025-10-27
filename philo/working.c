@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:42:23 by alejandro         #+#    #+#             */
-/*   Updated: 2025/10/27 08:06:22 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/27 18:53:26 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
  * @note Synchronization is achieved using mutexes to ensure safe access to
  * shared resources, such as the time of the last meal.
  */
-
 void	*game_r(void *arg)
 {
 	t_philo	*philo_i;
@@ -68,7 +67,6 @@ void	*game_r(void *arg)
  * @note Synchronizing sleep intervals reduces CPU usage and ensures that the
  * simulation remains responsive to changes in the `stop_game` flag.
  */
-
 char	melatonine(t_philo *philo)
 {
 	long long	inicio;
@@ -104,7 +102,6 @@ char	melatonine(t_philo *philo)
  * @param philo Pointer to the philosopher's data structure (`t_philo`).
  * @return Returns 1 if the thread should stop, or 0 otherwise.
  */
-
 char	thinking_on_nothing(t_philo *philo)
 {
 	if (stop_thread(philo))
@@ -131,7 +128,6 @@ char	thinking_on_nothing(t_philo *philo)
  * release the forks in a specific order: the last philosopher releases the
  * left fork first, while others release the right fork first.
  */
-
 char	jungle(t_philo *philo)
 {
 	long long	usleep_t;
@@ -173,7 +169,6 @@ char	jungle(t_philo *philo)
  * @note Synchronizing access to the `time_last_meal` and `n_times_eats` fields
  * ensures that no data races occur when multiple threads access these fields.
  */
-
 char	gains(t_philo *philo, long long inicio, long long usleep_t)
 {
 	long long	time_doing;

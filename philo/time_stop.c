@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 02:24:25 by alejandro         #+#    #+#             */
-/*   Updated: 2025/10/27 07:59:38 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/27 18:53:10 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
  * periodic checks of philosopher states, such as detecting starvation or
  * success conditions.
  */
-
 long long	usleep_time_controler(int num_philos, int frec_pp)
 {
 	double		milisec;
@@ -59,7 +58,6 @@ long long	usleep_time_controler(int num_philos, int frec_pp)
  * @note This function is primarily used in the working routines of each
  * philosopher to regulate actions such as eating, sleeping, and thinking.
  */
-
 long long	usleep_time_working(int frec_pp)
 {
 	long long	microsec;
@@ -80,7 +78,6 @@ long long	usleep_time_working(int frec_pp)
  * @note Accurate timestamps are essential for synchronizing events in the
  * simulation and ensuring that time-based conditions are met.
  */
-
 long long	get_timestamp(void)
 {
 	struct timeval	tv;
@@ -108,7 +105,6 @@ long long	get_timestamp(void)
  * ensures that all threads receive consistent information about the simulation
  * state.
  */
-
 char	stop_thread(t_philo *philo_i)
 {
 	char	ret;

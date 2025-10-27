@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 00:56:04 by alejandro         #+#    #+#             */
-/*   Updated: 2025/10/27 08:09:37 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/27 18:53:37 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
  * @note Mutexes ensure that only one philosopher can take the fork at a time,
  * preventing data races and ensuring proper synchronization.
  */
-
 char	take_right_fork(t_philo *phi, long long *start)
 {
 	pthread_mutex_lock(phi->right_fork);
@@ -54,7 +53,6 @@ char	take_right_fork(t_philo *phi, long long *start)
  * 
  * @note The same synchronization principles apply as with the right fork.
  */
-
 char	take_left_fork(t_philo *phi, long long *start)
 {
 	pthread_mutex_lock(phi->left_fork);
@@ -82,7 +80,6 @@ char	take_left_fork(t_philo *phi, long long *start)
  * @note Properly releasing forks is critical to avoid deadlocks and ensure
  * that all philosophers can progress in the simulation.
  */
-
 char	drop_left_fork(t_philo *phi)
 {
 	if (*(phi->fork_l))
@@ -106,7 +103,6 @@ char	drop_left_fork(t_philo *phi)
  * 
  * @note The same principles apply as with the left fork.
  */
-
 char	drop_right_fork(t_philo *phi)
 {
 	if (*(phi->fork_r))
@@ -136,7 +132,6 @@ char	drop_right_fork(t_philo *phi)
  * This prevents data races in the output, ensuring that each message is
  * displayed correctly and in order.
  */
-
 void	print_philo(t_philo *philo, int id, int new_state, long long timestamp)
 {
 	pthread_mutex_lock(philo->m_fd);

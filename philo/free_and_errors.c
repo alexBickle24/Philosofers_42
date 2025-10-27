@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:42:25 by alejandro         #+#    #+#             */
-/*   Updated: 2025/10/27 07:39:18 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/27 18:52:01 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
  * 
  * @return Always returns 1 to indicate an error.
  */
-
 int	ft_errorsargs(void)
 {
 	ft_putstr_fd("Error: Arguments error\n", 2);
@@ -35,7 +34,6 @@ int	ft_errorsargs(void)
  * 
  * @return Always returns 1 to indicate an error.
  */
-
 int	ft_errorsargs1(void)
 {
 	ft_putstr_fd("Error: Invalid caracter in one argument\n", 2);
@@ -52,7 +50,6 @@ int	ft_errorsargs1(void)
  * 
  * @param conditions Double pointer to the `t_cond` structure to be freed.
  */
-
 void	free_data(t_cond **conditions)
 {
 	if (conditions == NULL)
@@ -76,7 +73,6 @@ void	free_data(t_cond **conditions)
  * 
  * @param conditions Pointer to the `t_cond` structure containing philosopher data.
  */
-
 void	free_philosids(t_cond *conditions)
 {
 	int	i;
@@ -103,7 +99,6 @@ void	free_philosids(t_cond *conditions)
  * 
  * @param conditions Pointer to the `t_cond` structure containing thread data.
  */
-
 void	free_threads(t_cond *conditions)
 {
 	int	i;

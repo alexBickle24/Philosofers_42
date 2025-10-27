@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:14:10 by alejandro         #+#    #+#             */
-/*   Updated: 2025/10/27 07:55:25 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/27 18:53:01 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
  * @note Mutexes must be initialized before use to ensure thread safety. Failure
  * to initialize mutexes can lead to undefined behavior.
  */
-
 char	create_mutex(t_cond *cond)
 {
 	int	i;
@@ -62,7 +61,6 @@ char	create_mutex(t_cond *cond)
  * @note Failing to destroy mutexes can result in resource leaks, as the kernel
  * allocates memory for each mutex during initialization.
  */
-
 char	destroy_mutex(t_cond *cond)
 {
 	int	i;
@@ -100,7 +98,6 @@ char	destroy_mutex(t_cond *cond)
  * allocated in memory by the operating system. Proper management of TCBs is
  * crucial to avoid resource exhaustion.
  */
-
 char	create_threads(t_cond *cond)
 {
 	pthread_t	**threads;
@@ -134,7 +131,6 @@ char	create_threads(t_cond *cond)
  * properly released. Failing to join threads can lead to resource leaks and
  * undefined behavior.
  */
-
 void	join_threads_and_printdie(t_cond *conditions)
 {
 	int			i;

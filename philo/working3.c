@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 23:27:30 by alcarril          #+#    #+#             */
-/*   Updated: 2025/10/27 08:10:46 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/27 18:53:41 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
  * when accessing the fork states. This function is critical for avoiding
  * deadlocks and ensuring smooth operation of the simulation.
  */
-
 int	take_forks(t_philo *philo, long long *start)
 {
 	if (philo->mphilo_id == *(philo->n_philos) - 1)
@@ -67,7 +66,6 @@ int	take_forks(t_philo *philo, long long *start)
  * in case of a failure, preventing deadlocks and ensuring that other
  * philosophers can continue their operations.
  */
-
 int	fork_fail(t_philo *philo)
 {
 	if (stop_thread(philo))

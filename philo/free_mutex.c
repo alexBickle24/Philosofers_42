@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 22:12:01 by alejandro         #+#    #+#             */
-/*   Updated: 2025/10/27 07:41:49 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/27 18:52:13 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
  * 
  * @param conditions Pointer to the `t_cond` structure containing fork mutexes.
  */
-
 void	free_fork_mutexes(t_cond *conditions)
 {
 	int	i;
@@ -50,7 +49,6 @@ void	free_fork_mutexes(t_cond *conditions)
  * 
  * @param conditions Pointer to the `t_cond` structure containing meal mutexes.
  */
-
 void	free_tmeal_mutexes(t_cond *conditions)
 {
 	int	i;
@@ -78,7 +76,6 @@ void	free_tmeal_mutexes(t_cond *conditions)
  * 
  * @param conditions Pointer to the `t_cond` structure containing stop mutexes.
  */
-
 void	free_stop_mutexes(t_cond *conditions)
 {
 	int	i;
@@ -107,7 +104,6 @@ void	free_stop_mutexes(t_cond *conditions)
  * 
  * @param conditions Pointer to the `t_cond` structure containing all mutexes.
  */
-
 void	free_all_mutexes(t_cond *conditions)
 {
 	if (conditions == NULL)

@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:29:14 by alex              #+#    #+#             */
-/*   Updated: 2025/10/27 07:52:17 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/27 18:51:34 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
  * such as monitoring philosopher states or sleeping intervals, are performed.
  * It ensures that the simulation runs efficiently without excessive CPU usage.
  */
-
 # define MS_FREC 5
 
 /**
@@ -45,7 +44,6 @@
  * - S_THINKING: Philosopher is thinking.
  * - S_DIED: Philosopher has died.
  */
-
 typedef enum s_philo_state
 {
 	S_INIT,
@@ -73,7 +71,6 @@ typedef enum s_philo_state
  * - right_fork, left_fork: Mutexes for the right and left forks.
  * - m_fd, m_tmeal, m_stop: Mutexes for shared data and synchronization.
  */
-
 typedef struct philo_data
 {
 	long long		*t_eat;
@@ -111,7 +108,6 @@ typedef struct philo_data
  * - m_fd, m_forks, m_tmeal, m_stop: Mutexes for forks, meals, and stopping.
  * - philos: Array of pointers to philosopher data structures.
  */
-
 typedef struct program_conditions
 {
 	int				n_philos;

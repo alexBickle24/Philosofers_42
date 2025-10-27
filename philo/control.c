@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:04:16 by alejandro         #+#    #+#             */
-/*   Updated: 2025/10/27 07:36:34 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/27 18:51:49 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
  * @param arg Pointer to the `t_cond` structure containing shared program state.
  * @return Returns a pointer to the philosopher who died, or NULL if success conditions are met.
  */
-
 void	*control_r(void *arg)
 {
 	t_cond			*cond;
@@ -66,7 +65,6 @@ void	*control_r(void *arg)
  * @param i Index of the philosopher whose state is being accessed.
  * @return Returns the timestamp of the philosopher's last meal.
  */
-
 long long	get_philo_values(int *eat, t_cond *con, int i)
 {
 	long long	ml;
@@ -89,7 +87,6 @@ long long	get_philo_values(int *eat, t_cond *con, int i)
  * 
  * @param con Pointer to the `t_cond` structure containing shared program state.
  */
-
 void	parallel_stop(t_cond *con)
 {
 	int	i;
@@ -117,7 +114,6 @@ void	parallel_stop(t_cond *con)
  * @param hm_meals Number of meals consumed by the current philosopher.
  * @return Returns 1 if all success conditions are met, otherwise 0.
  */
-
 char	check_sucess(t_cond *cond, int i, int hm_meals)
 {
 	static int	count;

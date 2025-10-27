@@ -6,7 +6,7 @@
 /*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 00:33:39 by alejandro         #+#    #+#             */
-/*   Updated: 2025/10/27 07:46:06 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/10/27 18:52:45 by alejandro        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
  * @param cond Pointer to the `t_cond` structure containing shared program state.
  * @return Returns 0 on success, or 1 if an error occurs.
  */
-
 char	setup_multithread(t_cond *cond)
 {
 	if (prepare_threads(cond) || prepare_mutex(cond))
@@ -43,7 +42,6 @@ char	setup_multithread(t_cond *cond)
  * @param cond Pointer to the `t_cond` structure containing shared program state.
  * @return Returns 0 on success, or 1 if an error occurs.
  */
-
 char	create_philos_data(t_cond *cond)
 {
 	int	i;
@@ -84,7 +82,6 @@ char	create_philos_data(t_cond *cond)
  * @param cond Pointer to the `t_cond` structure containing shared program state.
  * @param i Index of the philosopher being initialized.
  */
-
 void	create_philos_data2(t_cond *cond, int i)
 {
 	cond->philos[i]->right_fork = cond->m_forks[i];
@@ -108,7 +105,6 @@ void	create_philos_data2(t_cond *cond, int i)
  * @param cond Pointer to the `t_cond` structure containing shared program state.
  * @return Returns 0 on success, or 1 if an error occurs.
  */
-
 char	prepare_threads(t_cond *cond)
 {
 	int	i;
@@ -145,7 +141,6 @@ char	prepare_threads(t_cond *cond)
  * @param con Pointer to the `t_cond` structure containing shared program state.
  * @return Returns 0 on success, or 1 if an error occurs.
  */
-
 char	prepare_mutex(t_cond *con)
 {
 	int	i;
