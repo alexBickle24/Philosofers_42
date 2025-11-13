@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
+/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 15:29:14 by alex              #+#    #+#             */
-/*   Updated: 2025/10/27 18:51:34 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/11/13 14:15:24 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include "libft/libft.h"
 # include "colors.h"
 # include <sys/time.h>
 # include <pthread.h>
 # include <unistd.h>
 # include <errno.h>
 # include <stdio.h>
+#include <stdlib.h>
 
 /**
  * @brief Defines the frequency in milliseconds for periodic checks.
@@ -183,5 +183,10 @@ long long	usleep_time_controler(int num_philos, int frec_pp);
 long long	usleep_time_working(int frec_pp);
 long long	get_timestamp(void);
 char		stop_thread(t_philo *philo_i);
+
+//utils
+int		ft_atoi(const char *nptr);
+void	*ft_calloc(size_t nmemb, size_t size);
+void	ft_putstr_fd(char *s, int fd);
 
 #endif

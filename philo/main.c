@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
+/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 10:56:21 by alex              #+#    #+#             */
-/*   Updated: 2025/10/27 18:52:21 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/11/13 14:12:03 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,4 +115,48 @@ t_cond	*fill_data(char **argv, int argc)
 		return (free_data(&p_data), NULL);
 	}
 	return (p_data);
+}
+
+int	ft_atoi(const char *nptr)
+{
+	int	sing;
+	int	num;
+
+	sing = 1;
+	num = 0;
+	while (*nptr == 32 || (*nptr >= 9 && *nptr <= 13))
+	{
+		nptr++;
+	}
+	if (*nptr == '-' || *nptr == '+')
+	{
+		if (*nptr == '-')
+		{
+			sing = -1;
+		}
+		nptr++;
+	}
+	while (*nptr >= '0' && *nptr <= '9')
+	{
+		num = num * 10 + (*nptr - '0');
+		nptr++;
+	}
+	return (num * sing);
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*ptr;
+	size_t	i;
+
+	i = 0;
+	ptr = (char *)malloc((size * nmemb));
+	if (!(ptr))
+		return (NULL);
+	while (i < (nmemb * size))
+	{
+		*(char *)(ptr + i) = 0;
+		i++;
+	}
+	return (ptr);
 }

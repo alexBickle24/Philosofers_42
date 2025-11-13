@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   working3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alejandro <alejandro@student.42.fr>        +#+  +:+       +#+        */
+/*   By: alcarril <alcarril@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/12 23:27:30 by alcarril          #+#    #+#             */
-/*   Updated: 2025/10/27 18:53:41 by alejandro        ###   ########.fr       */
+/*   Updated: 2025/11/13 14:15:07 by alcarril         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,13 @@ int	fork_fail(t_philo *philo)
 	}
 	print_philo(philo, philo->mphilo_id, S_EATING, philo->timestamp);
 	return (0);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	while (*s)
+	{
+		write(fd, s, 1);
+		s++;
+	}
 }
